@@ -63,18 +63,6 @@ footer a {
 footer a:hover {
     color: #FF69B4;
 }
-body.morning {
-    background: #87CEEB;
-}
-body.afternoon {
-    background: #609fe6;
-}
-body.evening {
-     background: #4dc5fc;
-}
-body.night {
-    background:#809efa;
-}
 #greeting{
     position:fixed;
     padding:40px 30px;
@@ -89,6 +77,7 @@ body.night {
     max-width:500px;
     background: rgb(152, 233, 255);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 9999;  
 }
 @keyframes popgreeting{
     from{opacity:0%;
