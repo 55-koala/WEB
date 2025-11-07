@@ -18,18 +18,22 @@ function w3_close() {
   document.getElementById("myOverlay").style.display = "none";
 }
 function enterGreeting(){
-    var greet=document.getElementById("greeting1");
+    var greet1=document.getElementById("greeting1");
+    var greet=document.getElementById("greeting");
     var greet2=document.getElementById("welcome");
     var now = new Date().getHours();
     if(now>=5 && now<12){
-        greet.innerHTML="Good Morning!";
+        greet1.innerHTML="Good Morning!";
     }else if(now>=12 && now<17){
-        greet.innerHTML="Good Afternoon!";
+        greet1.innerHTML="Good Afternoon!";
+        greet.style.backgorund="#60e68f";
     }else if(now>=17 && now<22){
-        greet.innerHTML="Good Evening!";
+        greet1.innerHTML="Good Evening!";
+        greet.style.backgorund="#ff941b";
     }else{
-        greet.innerHTML="Time to sleep!";
+        greet1.innerHTML="Time to sleep!";
         greet2.innerHTML="See you tomorrow!";
+        greet.style.background="#1a327b";
     }
 }
 
@@ -42,4 +46,5 @@ window.onload=function(){
     enterButton.onclick=enter;
     enterGreeting();
 }
+
 
