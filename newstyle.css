@@ -106,3 +106,23 @@ footer a:hover {
     border: 2px solid gray;
     background-color: gold;
 }
+#addCart{
+    font-size: 12px;
+    padding:10px 15px;
+    text-align: center;
+    position:relative;
+    float: right;
+    border-radius: 5px;
+    border: 2px solid #FFB347;
+    background-color: #FF69B4;
+}
+.w3-container p{
+    display:inline;
+    line-height: 1.6;
+}
+.w3-container button{
+    display:inline;
+    line-height: 1.6;
+    margin-bottom:15px;
+    margin-top:5px
+}
