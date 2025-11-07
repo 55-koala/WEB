@@ -1,4 +1,3 @@
-# WEB
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +60,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   <!-- Top header -->
   <header class="w3-container w3-xlarge">
-    <p class="w3-left">Jeans</p>
+    <p class="w3-left">Foods</p>
     <p class="w3-right">
       <i class="fa fa-shopping-cart w3-margin-right"></i>
       <i class="fa fa-search"></i>
@@ -70,74 +69,59 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
   <!-- Image header -->
   <div class="w3-display-container w3-container">
-    <img src="/w3images/jeans.jpg" alt="Jeans" style="width:100%">
+    <img src="./3.jpg" alt="Foods" style="width:100%;height: 600px;object-fit: cover;">
     <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
-      <h1 class="w3-jumbo w3-hide-small">New arrivals</h1>
-      <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>
-      <h1 class="w3-hide-small">COLLECTION 2016</h1>
-      <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>
-    </div>
+      <h2 class="w3-jumbo w3-hide-small">Sauteed Short Rib With Spicy Cream</h2>
   </div>
 
   <div class="w3-container w3-text-grey" id="jeans">
     <p>8 items</p>
   </div>
-
+  
+  
   <!-- Product grid -->
-  <div class="w3-row w3-grayscale">
+  <div class="w3-row">
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+        <img src="./1.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Mexican spicy and Tangy Chicken Pasta<br><b>$330</b></p>
       </div>
       <div class="w3-container">
-        <img src="/w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+        <img src="./7.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Cheese Monopoly Pizza<br><b>$230</b></p>
       </div>
     </div>
 
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+        <img src="./5.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Charcoal-Grilled Pork Tongue Rice<br><b>$185</b></p>
       </div>
       <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+        <img src="./6.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Hainanese Chicken Rice<br><b>$110</b></p>
       </div>
     </div>
 
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="/w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+        <img src="./8.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Amazing Eggs Benedict-Seared Fish<br><b>$480</b></p>
       </div>
       <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="/w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
+        <img src="./4.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Padyhai Gung Yang<br><b>$280</b></p>
       </div>
     </div>
 
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="/w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
+        <img src="./9.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Kung Pao Chicken With Cashews<br><b>$258</b></p>
       </div>
       <div class="w3-container">
-        <img src="/w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
+        <img src="./2.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Thai Spicy and Sour Noodles<br><b>$200</b></p>
       </div>
     </div>
   </div>
@@ -151,7 +135,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </div>
   
   <!-- Footer -->
-  <footer class="w3-padding-64 w3-light-grey w3-small w3-center" id="footer">
+  <footer class="w3-padding-64 w3-small w3-center" id="footer">
     <div class="w3-row-padding">
       <div class="w3-col s4">
         <h4>Contact</h4>
