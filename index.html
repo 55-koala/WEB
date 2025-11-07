@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Kids Food Website</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="newstyle.css">
+      <script src="myscript.js" defer></script>
+    </head>
+    <body class="w3-content" style="max-width:1200px">
+      <!--greeting-->
+        <div id="greeting">
+            <div id="greeting-content">
+                <h1 id="greeting1">Good Morning!</h1>
+                <h2 id="welcome">Welcome to our restaurant!</h2>
+                <button id="enter">Enter</button>
+            </div>
+        </div>
+
+      <!-- Sidebar/menu -->
+        <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+        <div class="w3-container w3-display-container w3-padding-16">
+          <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+          <h3 class="w3-wide"><b>LOGO</b></h3>
+        </div>
+        <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+      <a href="#" class="w3-bar-item w3-button">Shirts</a>
+      <a href="#" class="w3-bar-item w3-button">Dresses</a>
+      <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
+      Jeans <i class="fa fa-caret-down"></i>
+      </a>
+        <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+          <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
+          <a href="#" class="w3-bar-item w3-button">Relaxed</a>
+          <a href="#" class="w3-bar-item w3-button">Bootcut</a>
+          <a href="#" class="w3-bar-item w3-button">Straight</a>
+        </div>
+          <a href="#" class="w3-bar-item w3-button">Jackets</a>
+          <a href="#" class="w3-bar-item w3-button">Gymwear</a>
+          <a href="#" class="w3-bar-item w3-button">Blazers</a>
+          <a href="#" class="w3-bar-item w3-button">Shoes</a>
+        </div>
+        <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a> 
+    </nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+</header>
+
+<!-- Overlay effect -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Page content -->
+<div class="w3-main" style="margin-left:250px">
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  
+  <!-- Top header -->
+  <header class="w3-container w3-xlarge">
+    <p class="w3-left">Foods</p>
+    <p class="w3-right">
+      <i class="fa fa-shopping-cart w3-margin-right"></i>
+      <i class="fa fa-search"></i>
+    </p>
+  </header>
+
+  <!-- Image header -->
+  <div class="w3-display-container w3-container">
+    <img src="./3.jpg" alt="Foods" style="width:100%;height: 600px;object-fit: cover; border-radius: 20px;">
+    <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+      <h2 class="w3-jumbo w3-hide-small">Sauteed Short Rib With Spicy Cream</h2>
+    </div>
+  </div>
+
+  <div class="w3-container w3-text-grey" id="jeans">
+    <p>8 items</p>
+  </div>
+  
+  <!-- Product grid -->
+  <div class="w3-row">
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="./1.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Mexican spicy and Tangy Chicken Pasta<br><b>$330</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="./7.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Cheese Monopoly Pizza<br><b>$230</b></p>
+      </div>
+    </div>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="./5.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Charcoal-Grilled Pork Tongue Rice<br><b>$185</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="./6.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Hainanese Chicken Rice<br><b>$110</b></p>
+      </div>
+    </div>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="./8.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Amazing Eggs Benedict-Seared Fish<br><b>$480</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="./4.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Padyhai Gung Yang<br><b>$280</b></p>
+      </div>
+    </div>
+    <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="./9.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Kung Pao Chicken With Cashews<br><b>$258</b></p>
+      </div>
+      <div class="w3-container">
+        <img src="./2.jpg" style="width:100%;height: 250px;object-fit: cover;">
+        <p>Thai Spicy and Sour Noodles<br><b>$200</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscribe section (按鈕已移除) -->
+  <div class="subscribe-section">
+    <h2>Join our fun newsletter!</h2>
+    <p>Get special offers and colorful surprises:</p>
+    <input type="text" placeholder="Enter your e-mail">
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-padding-64 w3-small w3-center" id="footer">
+    <div class="w3-row-padding">
+      <div class="w3-col s4">
+        <h4>Contact</h4>
+        <p>Questions? Go ahead.</p>
+      </div>
+      <div class="w3-col s4">
+        <h4>About</h4>
+        <p><a href="#">About us</a></p>
+        <p><a href="#">Support</a></p>
+      </div>
+      <div class="w3-col s4 w3-justify">
+        <h4>Store</h4>
+        <p><i class="fa fa-fw fa-map-marker"></i> Company Name</p>
+        <p><i class="fa fa-fw fa-phone"></i> 0044123123</p>
+        <p><i class="fa fa-fw fa-envelope"></i> ex@mail.com</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" class="w3-hover-opacity">w3.css</a></div>
+</div>
+</body>
+</html>
