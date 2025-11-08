@@ -468,7 +468,7 @@
         </div>
         </div>
         <p>Brown Sugar Latte<br><b>$150</b></p>
-        <button class="add-btn" data-name="Brown Sugar Latte" data-price="150" data-img="./16.jpg">Add to Cart</button>
+        <button class="add-btn" data-has-options="true" data-name="Brown Sugar Latte" data-price="150" data-img="./16.jpg">Add to Cart</button>
       </div>
     </div>
 
@@ -510,7 +510,7 @@
         </div>
         </div>
         <p>Honey Lime Sparkling Cooler<br><b>$130</b></p>
-        <button class="add-btn" data-name="Honey Lime Sparkling Cooler" data-price="130" data-img="./18.jpg">Add to Cart</button>
+        <button class="add-btn" data-has-options="true" data-name="Honey Lime Sparkling Cooler" data-price="130" data-img="./18.jpg">Add to Cart</button>
       </div>
     </div>
 
@@ -551,11 +551,25 @@
 
     <!-- Note Modal -->
     <div id="noteModal">
+            <!--ice level-->
+      <div class="option-group">
+        <label>Ice Level:</label><br>
+        <input type="radio" name="ice1" value="Normal" checked> Regular
+        <input type="radio" name="ice1" value="Less"> Less
+        <input type="radio" name="ice1" value="No Ice"> No Ice
+      </div>
+      <!-- sugar level -->
+      <div class="option-group">
+        <label>Sugar Level:</label><br>
+        <input type="radio" name="sugar1" value="Normal" checked> Regular
+        <input type="radio" name="sugar1" value="Less"> Less
+        <input type="radio" name="sugar1" value="Half"> Half
+        <input type="radio" name="sugar1" value="No Sugar"> No Sugar
+      </div>
       <textarea id="noteText" placeholder="Enter note..."></textarea><br><br>
       <button class="add-btn" id="confirmAdd">Add</button>
       <button class="cancel-btn" id="cancelAdd">Cancel</button>
     </div>
-
     <!-- Cart Modal -->
     <div id="cartModal">
       <h3>Your Cart</h3>
@@ -564,6 +578,7 @@
     </div>
   </body>
 </html>
+
 
 
 
