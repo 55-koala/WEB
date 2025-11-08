@@ -29,7 +29,6 @@ body {
     font-weight: bold;
 }
 
-/* 商品卡片圖片 */
 .w3-row-padding .w3-container img {
     border-radius: 15px;
     border: 3px solid #FFD700;
@@ -40,7 +39,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* 商品卡片容器 */
 .w3-row-padding .w3-container {
     text-align: center;
     margin-bottom: 24px;
@@ -49,7 +47,6 @@ body {
     padding: 16px 10px 18px;
 }
 
-/* 商品名稱文字 */
 .w3-row-padding .w3-container p {
     color: #FF4500;
     font-weight: bold;
@@ -172,7 +169,7 @@ button.cancel-btn:hover {
 </head>
 <body class="w3-content" style="max-width:1200px">
 
-<!-- Sidebar -->
+
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top"
      style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
@@ -202,7 +199,6 @@ button.cancel-btn:hover {
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
 </nav>
 
-<!-- Top bar (mobile) -->
 <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
   <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
   <a href="javascript:void(0)"
@@ -213,11 +209,11 @@ button.cancel-btn:hover {
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer"
      title="close side menu" id="myOverlay"></div>
 
-<!-- Main -->
+
 <div class="w3-main" style="margin-left:250px">
   <div class="w3-hide-large" style="margin-top:83px"></div>
   
-  <!-- Header -->
+
   <header class="w3-container w3-xlarge">
     <p class="w3-left">Foods</p>
     <p class="w3-right">
@@ -227,7 +223,6 @@ button.cancel-btn:hover {
     </p>
   </header>
 
-  <!-- Hero -->
   <div class="w3-display-container w3-container">
     <img src="./3.jpg" alt="Foods"
          style="width:100%;height:600px;object-fit:cover;border-radius:20px;">
@@ -240,8 +235,7 @@ button.cancel-btn:hover {
     </div>
   </div>
 
-  <!-- Count -->
-  <div class="w3-container w3-text-grey" id="jeans" style="text-align:center;">
+  <div class="w3-container w3-text-grey" id="jeans">
     <p>20 items</p>
   </div>
 
