@@ -88,11 +88,28 @@ function enter(){
     var close=document.getElementById("greeting");
     close.style.display="none";
 }
+const menuCards = document.querySelectorAll('.menu-card');
+menuCards.forEach(card => {
+    const cardFront = card.querySelector('.card-front');
+    const cardBack = card.querySelector('.card-back');
+    if (cardFront) {
+        cardFront.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
+    }
+    if (cardBack) {
+        cardBack.addEventListener('click', () => {
+            card.classList.remove('flipped');
+        });
+    }
+});
 window.onload=function(){
     var enterButton=document.getElementById("enter");
     enterButton.onclick=enter;
     enterGreeting();
 }
+
+
 
 
 
