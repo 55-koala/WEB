@@ -30,14 +30,14 @@
     <a href="#" class="w3-bar-item w3-button">Dresses</a>
     <a onclick="myAccFunc()" href="javascript:void(0)"
        class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      Jeans <i class="fa fa-caret-down"></i>
+      Menu <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a href="#" class="w3-bar-item w3-button w3-light-grey">
-        <i class="fa fa-caret-right w3-margin-right"></i>Skinny
+      <a href="#maincourse" class="w3-bar-item w3-button w3-light-grey">
+        <i class="fa fa-caret-right w3-margin-right"></i>Main course
       </a>
-      <a href="#" class="w3-bar-item w3-button">Relaxed</a>
-      <a href="#" class="w3-bar-item w3-button">Bootcut</a>
+      <a href="#dessert" class="w3-bar-item w3-button">Dessert</a>
+      <a href="#beverage" class="w3-bar-item w3-button">Beverage</a>
       <a href="#" class="w3-bar-item w3-button">Straight</a>
     </div>
     <a href="#" class="w3-bar-item w3-button">Jackets</a>
@@ -90,11 +90,23 @@
 
   <!-- 20 items, 4 per row -->
   <div class="w3-row-padding">
-
+  <section id="maincourse">
     <!-- 1 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./1.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./1.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Mexican spicy and Tangy Chicken Pasta<br><b>$330</b></p>
         <button class="add-btn" data-name="Mexican spicy and Tangy Chicken Pasta" data-price="330" data-img="./1.jpg">Add to Cart</button>
       </div>
@@ -103,7 +115,19 @@
     <!-- 2 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./5.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./5.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Charcoal-Grilled Pork Tongue Rice<br><b>$185</b></p>
         <button class="add-btn" data-name="Charcoal-Grilled Pork Tongue Rice" data-price="185" data-img="./5.jpg">Add to Cart</button>
       </div>
@@ -112,7 +136,19 @@
     <!-- 3 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./8.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./8.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Amazing Eggs Benedict-Seared Fish<br><b>$480</b></p>
         <button class="add-btn" data-name="Amazing Eggs Benedict-Seared Fish" data-price="480" data-img="./8.jpg">Add to Cart</button>
       </div>
@@ -121,7 +157,19 @@
     <!-- 4 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./9.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./9.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Kung Pao Chicken With Cashews<br><b>$258</b></p>
         <button class="add-btn" data-name="Kung Pao Chicken With Cashews" data-price="258" data-img="./9.jpg">Add to Cart</button>
       </div>
@@ -130,7 +178,19 @@
     <!-- 5 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./7.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./7.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Cheese Monopoly Pizza<br><b>$230</b></p>
         <button class="add-btn" data-name="Cheese Monopoly Pizza" data-price="230" data-img="./7.jpg">Add to Cart</button>
       </div>
@@ -139,7 +199,19 @@
     <!-- 6 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./6.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./6.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Hainanese Chicken Rice<br><b>$110</b></p>
         <button class="add-btn" data-name="Hainanese Chicken Rice" data-price="110" data-img="./6.jpg">Add to Cart</button>
       </div>
@@ -148,7 +220,19 @@
     <!-- 7 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./4.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./4.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Padyhai Gung Yang<br><b>$280</b></p>
         <button class="add-btn" data-name="Padyhai Gung Yang" data-price="280" data-img="./4.jpg">Add to Cart</button>
       </div>
@@ -157,16 +241,41 @@
     <!-- 8 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./2.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./2.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Thai Spicy and Sour Noodles<br><b>$200</b></p>
         <button class="add-btn" data-name="Thai Spicy and Sour Noodles" data-price="200" data-img="./2.jpg">Add to Cart</button>
       </div>
     </div>
-
+  </section>
+    <section id="dessert">
     <!-- 9 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./10.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./10.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Taro Sago With Coconut Milk<br><b>$100</b></p>
         <button class="add-btn" data-name="Taro Sago With Coconut Milk" data-price="100" data-img="./10.jpg">Add to Cart</button>
       </div>
@@ -175,7 +284,19 @@
     <!-- 10 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./11.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./11.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Cream Brulee<br><b>$110</b></p>
         <button class="add-btn" data-name="Cream Brulee" data-price="110" data-img="./11.jpg">Add to Cart</button>
       </div>
@@ -184,7 +305,19 @@
     <!-- 11 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./12.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./12.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Basque Burnt Cheesecake<br><b>$180</b></p>
         <button class="add-btn" data-name="Basque Burnt Cheesecake" data-price="180" data-img="./12.jpg">Add to Cart</button>
       </div>
@@ -193,16 +326,41 @@
     <!-- 12 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./15.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./15.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Earl Grey Strawberry Chiffon Cake<br><b>$180</b></p>
         <button class="add-btn" data-name="Earl Grey Strawberry Chiffon Cake" data-price="180" data-img="./15.jpg">Add to Cart</button>
       </div>
     </div>
-
+    
+    
     <!-- 13 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./17.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./17.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Salted Cream Roll Cake<br><b>$180</b></p>
         <button class="add-btn" data-name="Salted Cream Roll Cake" data-price="180" data-img="./17.jpg">Add to Cart</button>
       </div>
@@ -211,7 +369,19 @@
     <!-- 14 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./20.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./20.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Pistachio Mille Crepe Cake<br><b>$250</b></p>
         <button class="add-btn" data-name="Pistachio Mille Crepe Cake" data-price="250" data-img="./20.jpg">Add to Cart</button>
       </div>
@@ -220,7 +390,19 @@
     <!-- 15 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./19.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./19.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Sakura Mochi Frappe<br><b>$100</b></p>
         <button class="add-btn" data-name="Sakura Mochi Frappe" data-price="100" data-img="./19.jpg">Add to Cart</button>
       </div>
@@ -229,16 +411,41 @@
     <!-- 16 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./21.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./21.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Hong Kong Style Butter Pineapple Bun<br><b>$130</b></p>
         <button class="add-btn" data-name="Hong Kong Style Butter Pineapple Bun" data-price="130" data-img="./21.jpg">Add to Cart</button>
       </div>
     </div>
-
+  </section>
+    <section id="beverage">
     <!-- 17 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./14.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./14.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Cha Yen<br><b>$95</b></p>
         <button class="add-btn" data-name="Cha Yen" data-price="95" data-img="./14.jpg">Add to Cart</button>
       </div>
@@ -247,7 +454,19 @@
     <!-- 18 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./16.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./16.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Brown Sugar Latte<br><b>$150</b></p>
         <button class="add-btn" data-name="Brown Sugar Latte" data-price="150" data-img="./16.jpg">Add to Cart</button>
       </div>
@@ -256,7 +475,19 @@
     <!-- 19 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./13.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./13.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Peach Berry Cream Frappe<br><b>$150</b></p>
         <button class="add-btn" data-name="Peach Berry Cream Frappe" data-price="150" data-img="./13.jpg">Add to Cart</button>
       </div>
@@ -265,14 +496,26 @@
     <!-- 20 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./18.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+          <div class="card-front">
+            <img src="./18.jpg" alt="">
+            <div class="hover-card">
+                <span>Click Me!</span>
+            </div>
+          </div>
+          <div class="card-back">
+            <p>introduction</p>
+          </div>
+        </div>
+        </div>
         <p>Honey Lime Sparkling Cooler<br><b>$130</b></p>
         <button class="add-btn" data-name="Honey Lime Sparkling Cooler" data-price="130" data-img="./18.jpg">Add to Cart</button>
       </div>
     </div>
 
-  </div>
-
+  </section>
+</div>
   <!-- Subscribe -->
   <div class="subscribe-section">
     <h2>Join our fun newsletter!</h2>
@@ -321,6 +564,7 @@
     </div>
   </body>
 </html>
+
 
 
 
