@@ -287,5 +287,20 @@ button.cancel-btn:hover {
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
+.option-group {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #ffbdde;
+}
+
+.option-group label {
+  font-weight: bold;
+}
+
+.option-group input {
+  margin-right: 5px;
+  margin-left: 10px;
+}
+
 
 
