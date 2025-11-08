@@ -19,7 +19,7 @@ function w3_close() {
 
 let cart = [];
 let selectedItem = null;
-const addButtons = document.querySelectorAll(".add-btn");
+const addButtons = document.querySelectorAll(".w3-row-padding .add-btn");
 const noteModal = document.getElementById("noteModal");
 const cartModal = document.getElementById("cartModal");
 const cartList = document.getElementById("cartList");
@@ -30,15 +30,31 @@ addButtons.forEach(btn => {
     selectedItem = {
       name: btn.dataset.name,
       price: btn.dataset.price,
-      img: btn.dataset.img
+      img: btn.dataset.img,
+      hasOptions: btn.dataset.hasOptions === "true"
     };
+    const iceGroup = noteModal.querySelector('.option-group:nth-child(1)');
+    const sugarGroup = noteModal.querySelector('.option-group:nth-child(2)');
+
+    if (selectedItem.hasOptions) {
+      iceGroup.style.display = "block";
+      sugarGroup.style.display = "block";
+    } else {
+      iceGroup.style.display = "none";
+      sugarGroup.style.display = "none";
+    }
     noteModal.style.display = "block";
   });
 });
 
 document.getElementById("confirmAdd").addEventListener("click", () => {
   const note = document.getElementById("noteText").value;
-  cart.push({ ...selectedItem, note });
+  let ice = "", sugar = "";
+  if (selectedItem.hasOptions) {
+    ice = noteModal.querySelector('input[name="ice1"]:checked').value;
+    sugar = noteModal.querySelector('input[name="sugar1"]:checked').value;
+  }
+  cart.push({ ...selectedItem, note,ice, sugar });
   document.getElementById("noteText").value = "";
   noteModal.style.display = "none";
   cartCountBadge.textContent = cart.length;
@@ -55,7 +71,8 @@ document.getElementById("cartIcon").addEventListener("click", () => {
     const div = document.createElement("div");
     div.innerHTML =
       `<img src="${item.img}">
-       <div><b>${item.name}</b><br>$${item.price}<br>Note: ${item.note || ''}</div>`;
+       <div><b>${item.name}</b><br>$${item.price}<br>Ice: ${item.ice || '-'}<br>
+     Sugar: ${item.sugar || '-'}<br>Note: ${item.note || ''}</div>`;
     cartList.appendChild(div);
   });
   cartModal.style.display = "block";
@@ -108,6 +125,8 @@ window.onload=function(){
     enterButton.onclick=enter;
     enterGreeting();
 }
+
+
 
 
 
