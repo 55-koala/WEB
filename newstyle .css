@@ -97,6 +97,13 @@ button.cancel-btn {
 button.cancel-btn:hover {
     background: linear-gradient(45deg, #FFB347, #FF6B6B);
 }
+button.confirm-btn {
+    background: linear-gradient(45deg, #FF6B6B, #a8d5f2);
+    color:white;
+}
+button.confirm-btn:hover {
+    background: linear-gradient(45deg, #FFB347, #FF6B6B);
+}
 #noteModal {
     border:3px solid #bbe8f9;
     background: #fdfdfd;
@@ -391,4 +398,5 @@ button.cancel-btn:hover {
     width: 0%;
     transition: width 0.5s;
 }
+
 
