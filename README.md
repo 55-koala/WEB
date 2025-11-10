@@ -538,23 +538,24 @@ document.getElementById("myBtn").click();
 // Greeting
 function enterGreeting() {
   var greet1 = document.getElementById("greeting1");
-  var greet = document.getElementById("greeting");
   var greet2 = document.getElementById("welcome");
   var now = new Date().getHours();
+
   if (now >= 5 && now < 12) {
-    greet1.innerHTML = "Good Morning!";
+    greet1.textContent = "Good Morning!";
+    greet2.textContent = "Welcome to our restaurant!";
   } else if (now >= 12 && now < 17) {
-    greet1.innerHTML = "Good Afternoon!";
-    greet.style.background = "#60e68f";
+    greet1.textContent = "Good Afternoon!";
+    greet2.textContent = "Welcome to our restaurant!";
   } else if (now >= 17 && now < 22) {
-    greet1.innerHTML = "Good Evening!";
-    greet.style.background = "#ff941b";
+    greet1.textContent = "Good Evening!";
+    greet2.textContent = "Welcome to our restaurant!";
   } else {
-    greet1.innerHTML = "Time to sleep!";
-    greet2.innerHTML = "See you tomorrow!";
-    greet.style.background = "#1a327b";
+    greet1.textContent = "Time to sleep!";
+    greet2.textContent = "See you tomorrow!";
   }
 }
+
 function enter(){
   document.getElementById("greeting").style.display="none";
 }
