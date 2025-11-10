@@ -35,10 +35,10 @@
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
       <a href="#maincourse" class="w3-bar-item w3-button w3-light-grey">
-        <i class="fa fa-caret-right w3-margin-right"></i>Main course
+        <i class="fa fa-caret-right w3-margin-right"></i>🍖Main course
       </a>
-      <a href="#dessert" class="w3-bar-item w3-button">Dessert</a>
-      <a href="#beverage" class="w3-bar-item w3-button">Beverage</a>
+      <a href="#dessert" class="w3-bar-item w3-button">🍰Dessert</a>
+      <a href="#beverage" class="w3-bar-item w3-button">🥤Beverage</a>
       <a href="#" class="w3-bar-item w3-button">Straight</a>
     </div>
     <a href="#" class="w3-bar-item w3-button">Jackets</a>
@@ -1204,6 +1204,7 @@ button.confirm-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left:10px;
 }
 
 #backToTop.show {
