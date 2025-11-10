@@ -427,6 +427,10 @@
     <p>Get special offers and colorful surprises:</p>
     <input type="text" placeholder="Enter your e-mail">
   </div>
+  <!-- Back to Top Button -->
+<button id="backToTop" title="Go to top">
+  <i class="fa fa-arrow-up"></i>
+</button>
 
   <!-- Footer -->
   <footer class="w3-padding-64 w3-small w3-center" id="footer">
@@ -741,6 +745,23 @@ menuCards.forEach(card => {
     });
   }
 });
+// Back to top button
+const backToTopBtn = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if (window.pageYOffset > 300) {
+    backToTopBtn.classList.add("show");
+  } else {
+    backToTopBtn.classList.remove("show");
+  }
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
 
 // On load
 window.onload = function() {
@@ -753,7 +774,7 @@ window.onload = function() {
 body,h1,h2,h3,h4,h5,h6,.w3-wide {
   font-family: 'Baloo 2', cursive;
 }
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
   .w3-row-padding {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -1162,6 +1183,50 @@ button.confirm-btn {
   background:linear-gradient(90deg,#FF6B81,#4CAF50);
   width:0%;
   transition:width 0.5s;
+}
+/* Back to Top Button */
+#backToTop {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 99;
+  background: linear-gradient(135deg, #FF9AA2, #FFB347);
+  color: white;
+  border: 3px solid #FFD700;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4);
+}
+
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#backToTop:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 107, 129, 0.6);
+  background: linear-gradient(135deg, #FFB347, #FF9AA2);
+}
+
+#backToTop:active {
+  transform: translateY(-2px) scale(1.05);
+}
+
+@media (max-width: 600px) {
+  #backToTop {
+    bottom: 90px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
 }
 </style>
 
