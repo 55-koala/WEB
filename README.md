@@ -753,6 +753,27 @@ window.onload = function() {
 body,h1,h2,h3,h4,h5,h6,.w3-wide {
   font-family: 'Baloo 2', cursive;
 }
+  @media (max-width: 600px) {
+  .w3-row-padding {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: 0 -4px !important;
+  }
+  
+  .w3-row-padding > .w3-col.s6 {
+    width: 50% !important;
+    max-width: 50% !important;
+    flex: 0 0 50% !important;
+    float: none !important;
+    padding: 0 4px !important;
+    box-sizing: border-box !important;
+  }
+  
+  .w3-row-padding .w3-container {
+    padding: 12px 6px 14px !important;
+    margin-bottom: 8px !important;
+  }
+}
 .w3-sidebar {
   background-color: #FFDEE9;
 }
