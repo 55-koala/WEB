@@ -490,8 +490,8 @@
   <div class="option-group">
     <label>Sugar Level:</label><br>
     <input type="radio" name="sugar1" value="Normal" checked> Regular
-    <input type="radio" name="sugar1" value="Less"> Less
     <input type="radio" name="sugar1" value="Half"> Half
+    <input type="radio" name="sugar1" value="Less"> Less
     <input type="radio" name="sugar1" value="No Sugar"> No Sugar
   </div>
   <textarea id="noteText" placeholder="Enter note..."></textarea><br><br>
