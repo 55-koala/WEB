@@ -1184,7 +1184,6 @@ button.confirm-btn {
   width:0%;
   transition:width 0.5s;
 }
-/* Back to Top Button */
 #backToTop {
   position: fixed;
   bottom: 80px;
@@ -1202,6 +1201,9 @@ button.confirm-btn {
   visibility: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #backToTop.show {
