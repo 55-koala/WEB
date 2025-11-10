@@ -1,175 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Kids Food Website</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body,h1,h2,h3,h4,h5,h6,.w3-wide {
-    font-family: 'Baloo 2', cursive;
-}
-.w3-sidebar {
-    background-color: #FFDEE9; 
-}
-.w3-sidebar a {
-    font-family: 'Baloo 2', cursive;
-    color: #FF6F61;
-}
-.w3-sidebar a:hover {
-    color: #FFB347;
-}
-body {
-    background: #FFF0F5; 
-}
-.w3-main header p {
-    color: #FF69B4;
-    font-weight: bold;
-}
-
-.w3-row-padding .w3-container img {
-    border-radius: 15px;
-    border: 3px solid #FFD700;
-    width: 100%;
-    height: 230px;
-    object-fit: cover;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.w3-row-padding .w3-container {
-    text-align: center;
-    margin-bottom: 24px;
-    background-color: #FFEAF2;
-    border-radius: 18px;
-    padding: 16px 10px 18px;
-}
-
-.w3-row-padding .w3-container p {
-    color: #FF4500;
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.subscribe-section {
-    background-color: #FFE4B5;
-    border-radius: 15px;
-    padding: 32px;
-    text-align: center;
-    color: #FF4500;
-    margin-top: 24px;
-}
-.subscribe-section input {
-    width: 80%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 2px solid #FFB347;
-    font-family: 'Baloo 2', cursive;
-}
-footer {
-    background-color: #FFDEAD;
-    border-top: 4px dashed #FF69B4;
-    color: #8B0000;
-}
-footer a {
-    color: #FF4500;
-    text-decoration: none;
-}
-footer a:hover {
-    color: #FF69B4;
-}
-button {
-    border:none;
-    border-radius:12px;
-    padding:8px 16px;
-    font-family:'Baloo 2', cursive;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-}
-button:hover {
-    transform:scale(1.05);
-}
-button.add-btn {
-    background: linear-gradient(45deg, #FF9AA2, #a9dae7);
-    color:white;
-}
-button.add-btn:hover {
-    background: linear-gradient(45deg, #FFB347, #FF9AA2);
-}
-button.cancel-btn {
-    background: linear-gradient(45deg, #FF6B6B, #a8d5f2);
-    color:white;
-}
-button.cancel-btn:hover {
-    background: linear-gradient(45deg, #FFB347, #FF6B6B);
-}
-#noteModal {
-    border:3px solid #bbe8f9;
-    background: #fdfdfd;
-    padding:30px;
-    border-radius:20px;
-    display:none;
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    z-index:10;
-}
-#noteModal textarea {
-    border-radius:12px;
-    border:2px solid #FFB347;
-    padding:40px;
-    width:100%;
-}
-#cartModal {
-    border:3px solid #FFB347;
-    background: #FFF0F5;
-    border-radius:20px;
-    padding:15px;
-    display:none;
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    width:90%;
-    max-width:500px;
-    z-index:10;
-}
-#cartList div {
-    border:2px dashed #FFB347;
-    border-radius:12px;
-    padding:8px;
-    margin-bottom:8px;
-    background: #FFE4B5;
-    display:flex;
-    align-items:center;
-}
-#cartList img {
-    border-radius:12px;
-    border:2px solid #FFB347;
-    width:60px;
-    height:60px;
-    object-fit:cover;
-    margin-right:10px;
-}
-#cartCountBadge {
-    background: #FF6B81;
-    color:white;
-    font-weight:bold;
-    font-size:13px;
-    padding:2px 6px;
-    border-radius:50%;
-    vertical-align:top;
-}
-</style>
+  <title>Kids Food Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="w3-content" style="max-width:1200px">
 
+<!-- Greeting -->
+<div id="greeting">
+  <div id="greeting-content">
+    <h1 id="greeting1">Good Morning!</h1>
+    <h2 id="welcome">Welcome to our restaurant!</h2>
+    <button id="enter">Enter</button>
+  </div>
+</div>
 
+<!-- Sidebar -->
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top"
      style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
@@ -181,14 +31,14 @@ button.cancel-btn:hover {
     <a href="#" class="w3-bar-item w3-button">Dresses</a>
     <a onclick="myAccFunc()" href="javascript:void(0)"
        class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      Jeans <i class="fa fa-caret-down"></i>
+      Menu <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a href="#" class="w3-bar-item w3-button w3-light-grey">
-        <i class="fa fa-caret-right w3-margin-right"></i>Skinny
+      <a href="#maincourse" class="w3-bar-item w3-button w3-light-grey">
+        <i class="fa fa-caret-right w3-margin-right"></i>Main course
       </a>
-      <a href="#" class="w3-bar-item w3-button">Relaxed</a>
-      <a href="#" class="w3-bar-item w3-button">Bootcut</a>
+      <a href="#dessert" class="w3-bar-item w3-button">Dessert</a>
+      <a href="#beverage" class="w3-bar-item w3-button">Beverage</a>
       <a href="#" class="w3-bar-item w3-button">Straight</a>
     </div>
     <a href="#" class="w3-bar-item w3-button">Jackets</a>
@@ -199,6 +49,7 @@ button.cancel-btn:hover {
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
 </nav>
 
+<!-- Top bar (mobile) -->
 <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
   <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
   <a href="javascript:void(0)"
@@ -209,10 +60,9 @@ button.cancel-btn:hover {
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer"
      title="close side menu" id="myOverlay"></div>
 
-
+<!-- Main content -->
 <div class="w3-main" style="margin-left:250px">
   <div class="w3-hide-large" style="margin-top:83px"></div>
-  
 
   <header class="w3-container w3-xlarge">
     <p class="w3-left">Foods</p>
@@ -235,194 +85,341 @@ button.cancel-btn:hover {
     </div>
   </div>
 
-  <div class="w3-container w3-text-grey" id="jeans">
+  <div class="w3-container w3-text-grey">
     <p>20 items</p>
   </div>
 
-  <!-- 20 items, 4 per row -->
-  <div class="w3-row-padding">
-
+  <!-- Main course -->
+  <section class="w3-row-padding" id="maincourse">
     <!-- 1 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./1.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./1.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Mexican spicy and Tangy Chicken Pasta<br><b>$330</b></p>
         <button class="add-btn" data-name="Mexican spicy and Tangy Chicken Pasta" data-price="330" data-img="./1.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 2 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./5.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./5.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Charcoal-Grilled Pork Tongue Rice<br><b>$185</b></p>
         <button class="add-btn" data-name="Charcoal-Grilled Pork Tongue Rice" data-price="185" data-img="./5.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 3 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./8.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./8.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Amazing Eggs Benedict-Seared Fish<br><b>$480</b></p>
         <button class="add-btn" data-name="Amazing Eggs Benedict-Seared Fish" data-price="480" data-img="./8.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 4 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./9.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./9.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Kung Pao Chicken With Cashews<br><b>$258</b></p>
         <button class="add-btn" data-name="Kung Pao Chicken With Cashews" data-price="258" data-img="./9.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 5 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./7.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./7.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Cheese Monopoly Pizza<br><b>$230</b></p>
         <button class="add-btn" data-name="Cheese Monopoly Pizza" data-price="230" data-img="./7.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 6 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./6.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./6.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Hainanese Chicken Rice<br><b>$110</b></p>
         <button class="add-btn" data-name="Hainanese Chicken Rice" data-price="110" data-img="./6.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 7 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./4.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./4.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Padyhai Gung Yang<br><b>$280</b></p>
         <button class="add-btn" data-name="Padyhai Gung Yang" data-price="280" data-img="./4.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 8 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./2.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./2.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Thai Spicy and Sour Noodles<br><b>$200</b></p>
         <button class="add-btn" data-name="Thai Spicy and Sour Noodles" data-price="200" data-img="./2.jpg">Add to Cart</button>
       </div>
     </div>
+  </section>
 
+  <!-- Dessert -->
+  <section class="w3-row-padding" id="dessert">
     <!-- 9 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./10.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./10.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Taro Sago With Coconut Milk<br><b>$100</b></p>
         <button class="add-btn" data-name="Taro Sago With Coconut Milk" data-price="100" data-img="./10.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 10 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./11.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./11.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Cream Brulee<br><b>$110</b></p>
         <button class="add-btn" data-name="Cream Brulee" data-price="110" data-img="./11.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 11 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./12.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./12.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Basque Burnt Cheesecake<br><b>$180</b></p>
         <button class="add-btn" data-name="Basque Burnt Cheesecake" data-price="180" data-img="./12.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 12 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./15.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./15.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Earl Grey Strawberry Chiffon Cake<br><b>$180</b></p>
         <button class="add-btn" data-name="Earl Grey Strawberry Chiffon Cake" data-price="180" data-img="./15.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 13 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./17.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./17.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Salted Cream Roll Cake<br><b>$180</b></p>
         <button class="add-btn" data-name="Salted Cream Roll Cake" data-price="180" data-img="./17.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 14 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./20.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./20.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Pistachio Mille Crepe Cake<br><b>$250</b></p>
         <button class="add-btn" data-name="Pistachio Mille Crepe Cake" data-price="250" data-img="./20.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 15 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./19.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./19.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Sakura Mochi Frappe<br><b>$100</b></p>
         <button class="add-btn" data-name="Sakura Mochi Frappe" data-price="100" data-img="./19.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 16 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./21.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./21.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Hong Kong Style Butter Pineapple Bun<br><b>$130</b></p>
         <button class="add-btn" data-name="Hong Kong Style Butter Pineapple Bun" data-price="130" data-img="./21.jpg">Add to Cart</button>
       </div>
     </div>
+  </section>
 
+  <!-- Beverage -->
+  <section class="w3-row-padding" id="beverage">
     <!-- 17 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./14.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./14.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Cha Yen<br><b>$95</b></p>
         <button class="add-btn" data-name="Cha Yen" data-price="95" data-img="./14.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 18 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./16.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./16.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Brown Sugar Latte<br><b>$150</b></p>
-        <button class="add-btn" data-name="Brown Sugar Latte" data-price="150" data-img="./16.jpg">Add to Cart</button>
+        <button class="add-btn" data-has-options="true" data-name="Brown Sugar Latte" data-price="150" data-img="./16.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 19 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./13.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./13.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Peach Berry Cream Frappe<br><b>$150</b></p>
         <button class="add-btn" data-name="Peach Berry Cream Frappe" data-price="150" data-img="./13.jpg">Add to Cart</button>
       </div>
     </div>
-
     <!-- 20 -->
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <img src="./18.jpg" alt="">
+        <div class="menu-card">
+          <div class="menu-card-inner">
+            <div class="card-front">
+              <img src="./18.jpg" alt="">
+              <div class="hover-card"><span>Click Me!</span></div>
+            </div>
+            <div class="card-back"><p>introduction</p></div>
+          </div>
+        </div>
         <p>Honey Lime Sparkling Cooler<br><b>$130</b></p>
-        <button class="add-btn" data-name="Honey Lime Sparkling Cooler" data-price="130" data-img="./18.jpg">Add to Cart</button>
+        <button class="add-btn" data-has-options="true" data-name="Honey Lime Sparkling Cooler" data-price="130" data-img="./18.jpg">Add to Cart</button>
       </div>
     </div>
-
-  </div>
+  </section>
 
   <!-- Subscribe -->
   <div class="subscribe-section">
@@ -457,8 +454,46 @@ button.cancel-btn:hover {
   </div>
 </div>
 
+<!-- Progress Bar -->
+<div class="progress-container">
+  <div class="progress-bar">
+    <div class="progress-line">
+      <div class="progress-line-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-step">
+      <div class="rocket-icon active" id="step1">🚀</div>
+      <div class="step-label active">order</div>
+    </div>
+    <div class="progress-step">
+      <div class="rocket-icon" id="step2">🚀</div>
+      <div class="step-label">confirm</div>
+    </div>
+    <div class="progress-step">
+      <div class="rocket-icon" id="step3">🚀</div>
+      <div class="step-label">checkout</div>
+    </div>
+    <div class="progress-step">
+      <div class="rocket-icon" id="step4">🚀</div>
+      <div class="step-label">finish</div>
+    </div>
+  </div>
+</div>
+
 <!-- Note Modal -->
 <div id="noteModal">
+  <div class="option-group">
+    <label>Ice Level:</label><br>
+    <input type="radio" name="ice1" value="Normal" checked> Regular
+    <input type="radio" name="ice1" value="Less"> Less
+    <input type="radio" name="ice1" value="No Ice"> No Ice
+  </div>
+  <div class="option-group">
+    <label>Sugar Level:</label><br>
+    <input type="radio" name="sugar1" value="Normal" checked> Regular
+    <input type="radio" name="sugar1" value="Less"> Less
+    <input type="radio" name="sugar1" value="Half"> Half
+    <input type="radio" name="sugar1" value="No Sugar"> No Sugar
+  </div>
   <textarea id="noteText" placeholder="Enter note..."></textarea><br><br>
   <button class="add-btn" id="confirmAdd">Add</button>
   <button class="cancel-btn" id="cancelAdd">Cancel</button>
@@ -469,9 +504,19 @@ button.cancel-btn:hover {
   <h3>Your Cart</h3>
   <div id="cartList"></div>
   <button class="cancel-btn" id="closeCart">Close</button>
+  <button class="confirm-btn" id="confirmCart">Confirm</button>
+</div>
+
+<!-- Checkout Modal -->
+<div id="checkoutModal">
+  <h3>Checkout</h3>
+  <p>Please confirm your order and payment method.</p>
+  <button class="cancel-btn" id="backToCart">Back</button>
+  <button class="confirm-btn" id="payBtn">Pay</button>
 </div>
 
 <script>
+// Sidebar & menu
 function myAccFunc() {
   var x = document.getElementById("demoAcc");
   if (x.className.indexOf("w3-show") == -1) {
@@ -480,8 +525,6 @@ function myAccFunc() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
-document.getElementById("myBtn").click();
-
 function w3_open() {
   document.getElementById("mySidebar").style.display = "block";
   document.getElementById("myOverlay").style.display = "block";
@@ -490,55 +533,615 @@ function w3_close() {
   document.getElementById("mySidebar").style.display = "none";
   document.getElementById("myOverlay").style.display = "none";
 }
+document.getElementById("myBtn").click();
 
+// Greeting
+function enterGreeting() {
+  var greet1 = document.getElementById("greeting1");
+  var greet = document.getElementById("greeting");
+  var greet2 = document.getElementById("welcome");
+  var now = new Date().getHours();
+  if (now >= 5 && now < 12) {
+    greet1.innerHTML = "Good Morning!";
+  } else if (now >= 12 && now < 17) {
+    greet1.innerHTML = "Good Afternoon!";
+    greet.style.background = "#60e68f";
+  } else if (now >= 17 && now < 22) {
+    greet1.innerHTML = "Good Evening!";
+    greet.style.background = "#ff941b";
+  } else {
+    greet1.innerHTML = "Time to sleep!";
+    greet2.innerHTML = "See you tomorrow!";
+    greet.style.background = "#1a327b";
+  }
+}
+function enter(){
+  document.getElementById("greeting").style.display="none";
+}
+
+// Progress bar
+let currentStep = 1;
+function updateProgressBar(step) {
+  currentStep = step;
+  const steps = [
+    { icon: document.getElementById("step1"), label: document.querySelector(".progress-step:nth-child(2) .step-label") },
+    { icon: document.getElementById("step2"), label: document.querySelector(".progress-step:nth-child(3) .step-label") },
+    { icon: document.getElementById("step3"), label: document.querySelector(".progress-step:nth-child(4) .step-label") },
+    { icon: document.getElementById("step4"), label: document.querySelector(".progress-step:nth-child(5) .step-label") },
+  ];
+  const progressFill = document.getElementById("progressFill");
+  progressFill.style.width = ((step - 1) / 3 * 100) + "%";
+
+  steps.forEach((s, i) => {
+    s.icon.classList.remove("active", "completed");
+    s.label.classList.remove("active", "completed");
+    if (i + 1 < step) {
+      s.icon.classList.add("completed");
+      s.label.classList.add("completed");
+    } else if (i + 1 === step) {
+      s.icon.classList.add("active");
+      s.label.classList.add("active");
+    }
+  });
+}
+
+// Cart & checkout
 let cart = [];
 let selectedItem = null;
-const addButtons = document.querySelectorAll(".add-btn");
+
+const addButtons = document.querySelectorAll(".w3-row-padding .add-btn");
 const noteModal = document.getElementById("noteModal");
 const cartModal = document.getElementById("cartModal");
+const checkoutModal = document.getElementById("checkoutModal");
 const cartList = document.getElementById("cartList");
 const cartCountBadge = document.getElementById("cartCountBadge");
 
+const confirmAddBtn = document.getElementById("confirmAdd");
+const cancelAddBtn = document.getElementById("cancelAdd");
+const cartIcon = document.getElementById("cartIcon");
+const closeCartBtn = document.getElementById("closeCart");
+const confirmCartBtn = document.getElementById("confirmCart");
+const backToCartBtn = document.getElementById("backToCart");
+const payBtn = document.getElementById("payBtn");
+
+// Add to cart: open note modal
 addButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     selectedItem = {
       name: btn.dataset.name,
       price: btn.dataset.price,
-      img: btn.dataset.img
+      img: btn.dataset.img,
+      hasOptions: btn.dataset.hasOptions === "true"
     };
+    const iceGroup = noteModal.querySelector('.option-group:nth-child(1)');
+    const sugarGroup = noteModal.querySelector('.option-group:nth-child(2)');
+    if (selectedItem.hasOptions) {
+      iceGroup.style.display = "block";
+      sugarGroup.style.display = "block";
+    } else {
+      iceGroup.style.display = "none";
+      sugarGroup.style.display = "none";
+    }
     noteModal.style.display = "block";
   });
 });
 
-document.getElementById("confirmAdd").addEventListener("click", () => {
+// Confirm add item
+confirmAddBtn.addEventListener("click", () => {
   const note = document.getElementById("noteText").value;
-  cart.push({ ...selectedItem, note });
+  let ice = "", sugar = "";
+  if (selectedItem && selectedItem.hasOptions) {
+    ice = noteModal.querySelector('input[name="ice1"]:checked').value;
+    sugar = noteModal.querySelector('input[name="sugar1"]:checked').value;
+  }
+  if (selectedItem) {
+    cart.push({ ...selectedItem, note, ice, sugar });
+    cartCountBadge.textContent = cart.length;
+  }
   document.getElementById("noteText").value = "";
   noteModal.style.display = "none";
-  cartCountBadge.textContent = cart.length;
+  updateProgressBar(1);
 });
 
-document.getElementById("cancelAdd").addEventListener("click", () => {
+// Cancel add
+cancelAddBtn.addEventListener("click", () => {
   document.getElementById("noteText").value = "";
   noteModal.style.display = "none";
 });
 
-document.getElementById("cartIcon").addEventListener("click", () => {
+// Render cart
+function renderCart() {
   cartList.innerHTML = "";
-  cart.forEach(item => {
+  cart.forEach((item, index) => {
     const div = document.createElement("div");
-    div.innerHTML =
-      `<img src="${item.img}">
-       <div><b>${item.name}</b><br>$${item.price}<br>Note: ${item.note || ''}</div>`;
+    div.classList.add("cart-item");
+    div.innerHTML = `
+      <img src="${item.img}">
+      <div class="cart-item-info">
+        <b>${item.name}</b><br>
+        $${item.price}<br>
+        Ice: ${item.ice || '-'}<br>
+        Sugar: ${item.sugar || '-'}<br>
+        Note: ${item.note || ''}
+      </div>
+      <button class="remove-btn" data-index="${index}">delete</button>
+    `;
     cartList.appendChild(div);
   });
+}
+
+// Open cart
+cartIcon.addEventListener("click", () => {
+  renderCart();
   cartModal.style.display = "block";
+  updateProgressBar(2);
 });
 
-document.getElementById("closeCart").addEventListener("click", () => {
-  cartModal.style.display = "none";
+// Delete item in cart
+cartList.addEventListener("click", (e) => {
+  if (e.target.classList.contains("remove-btn")) {
+    const index = parseInt(e.target.dataset.index, 10);
+    cart.splice(index, 1);
+    cartCountBadge.textContent = cart.length;
+    renderCart();
+  }
 });
+
+// Close cart
+closeCartBtn.addEventListener("click", () => {
+  cartModal.style.display = "none";
+  updateProgressBar(1);
+});
+
+// Cart Confirm → go to checkout
+confirmCartBtn.addEventListener("click", () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+  cartModal.style.display = "none";
+  checkoutModal.style.display = "block";
+  updateProgressBar(3);
+});
+
+// Checkout Back
+backToCartBtn.addEventListener("click", () => {
+  checkoutModal.style.display = "none";
+  cartModal.style.display = "block";
+  updateProgressBar(2);
+});
+
+// Checkout Pay → finish
+payBtn.addEventListener("click", () => {
+  updateProgressBar(4);
+  setTimeout(() => {
+    alert("Your order has been placed. Thank you for dining with us!");
+    cart = [];
+    renderCart();
+    cartCountBadge.textContent = 0;
+    checkoutModal.style.display = "none";
+    updateProgressBar(1);
+  }, 300);
+});
+
+// Flip cards
+const menuCards = document.querySelectorAll('.menu-card');
+menuCards.forEach(card => {
+  const cardFront = card.querySelector('.card-front');
+  const cardBack = card.querySelector('.card-back');
+  if (cardFront) {
+    cardFront.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  }
+  if (cardBack) {
+    cardBack.addEventListener('click', () => {
+      card.classList.remove('flipped');
+    });
+  }
+});
+
+// On load
+window.onload = function() {
+  document.getElementById("enter").onclick = enter;
+  enterGreeting();
+};
 </script>
+
+<style>
+body,h1,h2,h3,h4,h5,h6,.w3-wide {
+  font-family: 'Baloo 2', cursive;
+}
+.w3-sidebar {
+  background-color: #FFDEE9;
+}
+.w3-sidebar a {
+  font-family: 'Baloo 2', cursive;
+  color: #FF6F61;
+}
+.w3-sidebar a:hover {
+  color: #FFB347;
+}
+body {
+  background: #FFF0F5;
+}
+.w3-main header p {
+  color: #FF69B4;
+  font-weight: bold;
+}
+.w3-row-padding .w3-container img {
+  border-radius: 15px;
+  border: 3px solid #FFD700;
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 10px;
+}
+.w3-row-padding .w3-container {
+  text-align: center;
+  margin-bottom: 24px;
+  background-color: #FFEAF2;
+  border-radius: 18px;
+  padding: 16px 10px 18px;
+}
+.w3-row-padding .w3-container p {
+  color: #FF4500;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.subscribe-section {
+  background-color: #FFE4B5;
+  border-radius: 15px;
+  padding: 32px;
+  text-align: center;
+  color: #FF4500;
+  margin-top: 24px;
+}
+.subscribe-section input {
+  width: 80%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #FFB347;
+  font-family: 'Baloo 2', cursive;
+}
+footer {
+  background-color: #FFDEAD;
+  border-top: 4px dashed #FF69B4;
+  color: #8B0000;
+}
+footer a {
+  color: #FF4500;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #FF69B4;
+}
+button {
+  border:none;
+  border-radius:12px;
+  padding:8px 16px;
+  font-family:'Baloo 2', cursive;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover {
+  transform:scale(1.05);
+}
+button.add-btn {
+  background: linear-gradient(45deg, #FF9AA2, #a9dae7);
+  color:white;
+}
+button.cancel-btn,
+button.confirm-btn {
+  background: linear-gradient(45deg, #FF6B6B, #a8d5f2);
+  color:white;
+}
+#noteModal, #cartModal, #checkoutModal {
+  box-sizing:border-box;
+}
+#noteModal {
+  border:3px solid #bbe8f9;
+  background:#fdfdfd;
+  padding:30px;
+  border-radius:20px;
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:10;
+}
+#noteModal textarea {
+  border-radius:12px;
+  border:2px solid #FFB347;
+  padding:10px;
+  width:100%;
+}
+#cartModal {
+  border:3px solid #FFB347;
+  background:#FFF0F5;
+  border-radius:20px;
+  padding:15px;
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:90%;
+  max-width:500px;
+  z-index:10;
+}
+#checkoutModal {
+  border:3px solid #FFB347;
+  background:#FFF7FB;
+  border-radius:20px;
+  padding:20px;
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:80%;
+  max-width:400px;
+  z-index:11;
+  text-align:center;
+}
+#cartList div.cart-item {
+  border:2px dashed #FFB347;
+  border-radius:12px;
+  padding:8px;
+  margin-bottom:8px;
+  background:#FFE4B5;
+  display:flex;
+  align-items:center;
+}
+#cartList img {
+  border-radius:12px;
+  border:2px solid #FFB347;
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  margin-right:10px;
+}
+#cartCountBadge {
+  background:#FF6B81;
+  color:white;
+  font-weight:bold;
+  font-size:13px;
+  padding:2px 6px;
+  border-radius:50%;
+  vertical-align:top;
+}
+.remove-btn {
+  background:none;
+  border:none;
+  color:#ff4b5c;
+  font-weight:bold;
+  cursor:pointer;
+}
+.remove-btn:hover {
+  color:#ff0000;
+  transform:scale(1.05);
+}
+#greeting{
+    position:fixed;
+    padding:40px 30px;
+    text-align: center;
+    margin:20px auto;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius: 20px;
+    border: 4px solid gray;
+    animation-name:popgreeting;
+    animation-duration:2s;
+    max-width:500px;
+    background: rgb(152, 233, 255);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    z-index: 9999;  
+}
+#greeting1{
+    font-size:50px;
+    color:rgb(32, 110, 178);
+    margin-top:20px;
+}
+#welcome{
+    font-size:30px;
+    color:rgb(32, 110, 178);
+    margin-top:10px;
+}
+#enter{
+    font-size: 20px;
+    padding:10px 20px;
+    text-align: center;
+    position:relative;
+    margin-bottom:20px;
+    border-radius: 5px;
+    border: 2px solid gray;
+    background-color: gold;
+}
+#cartIcon,
+.w3-container .fa-search {
+  cursor: pointer;
+}
+/* 讓每一項購物車項目左右排列：左邊是圖片＋文字，右邊是 delete */
+#cartList .cart-item {
+  display: flex;
+  justify-content: space-between; /* 左右兩側分開 */
+  align-items: flex-start;
+  border: 2px dashed #FFB347;
+  border-radius: 15px;
+  background: #FFE4B5;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+/* 左側：圖片＋文字區 */
+#cartList .cart-item-info {
+  flex: 1;
+  margin-left: 10px;
+  color: #222;
+  font-weight: 500;
+}
+
+/* 右側 delete 按鈕固定靠右、垂直置中 */
+#cartList .remove-btn {
+  align-self: center;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #ff4b5c;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+/* hover 效果 */
+#cartList .remove-btn:hover {
+  color: #ff0000;
+  transform: scale(1.1);
+}
+
+/* 調整圖片圓角與外框 */
+#cartList img {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  border: 2px solid #FFB347;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+@keyframes popgreeting{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+.menu-card {
+  position:relative;
+  width:100%;
+  height:230px;
+  perspective:1000px;
+  margin-bottom:10px;
+}
+.menu-card-inner {
+  position:relative;
+  width:100%;
+  height:230px;
+  transform-style:preserve-3d;
+  transition:transform 0.6s;
+}
+.menu-card.flipped .menu-card-inner {
+  transform:rotateY(180deg);
+}
+.card-front, .card-back {
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  border-radius:15px;
+  overflow:hidden;
+}
+.card-front img {
+  border-radius:15px;
+  border:3px solid #FFD700;
+  width:100%;
+  height:230px;
+  object-fit:cover;
+}
+.card-back {
+  transform:rotateY(180deg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:10px;
+  box-sizing:border-box;
+  border:3px solid #FFD700;
+  background:#ffbdde;
+}
+.hover-card {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(215, 174, 195, 0.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:opacity 0.3s;
+  border-radius:15px;
+}
+.card-front:hover .hover-card {
+  opacity:1;
+}
+.progress-container {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  box-shadow:0 -4px 10px rgba(0,0,0,0.1);
+  z-index:5;
+}
+.progress-bar {
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  max-width:800px;
+  margin:0 auto;
+  position:relative;
+}
+.progress-step {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex:1;
+  position:relative;
+  z-index:2;
+}
+.rocket-icon {
+  font-size:40px;
+  color:#ccc;
+  transition:all 0.5s;
+}
+.rocket-icon.active {
+  color:#FF6B81;
+  transform:scale(1.3);
+}
+.rocket-icon.completed {
+  color:#4CAF50;
+}
+.step-label {
+  font-size:14px;
+  font-weight:bold;
+  color:#666;
+}
+.step-label.active {
+  color:#FF6B81;
+}
+.step-label.completed {
+  color:#4CAF50;
+}
+.progress-line {
+  position:absolute;
+  top:20px;
+  left:0;
+  right:0;
+  height:4px;
+  background:#ddd;
+  z-index:1;
+}
+.progress-line-fill {
+  height:100%;
+  background:linear-gradient(90deg,#FF6B81,#4CAF50);
+  width:0%;
+  transition:width 0.5s;
+}
+</style>
 
 </body>
 </html>
