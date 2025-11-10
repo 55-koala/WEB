@@ -100,7 +100,7 @@
               <img src="./1.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>This pasta is a little spicy and very yummy! The chicken dances with tasty sauce. 🌶️💃</p></div>
           </div>
         </div>
         <p>Mexican spicy and Tangy Chicken Pasta<br><b>$330</b></p>
@@ -116,7 +116,7 @@
               <img src="./5.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Smoky rice with soft pork — it smells so good! 🔥🍚</p></div>
           </div>
         </div>
         <p>Charcoal-Grilled Pork Tongue Rice<br><b>$185</b></p>
@@ -132,7 +132,7 @@
               <img src="./8.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Eggs and fish on toast! So soft and creamy. 🍳🐠</p></div>
           </div>
         </div>
         <p>Amazing Eggs Benedict-Seared Fish<br><b>$480</b></p>
@@ -148,7 +148,7 @@
               <img src="./9.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Crunchy nuts and sweet chicken — a happy bite every time! 🥢</p></div>
           </div>
         </div>
         <p>Kung Pao Chicken With Cashews<br><b>$258</b></p>
@@ -164,7 +164,7 @@
               <img src="./7.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>So much cheese! It’s melty, stretchy, and super fun! 🧀😋</p></div>
           </div>
         </div>
         <p>Cheese Monopoly Pizza<br><b>$230</b></p>
@@ -180,7 +180,7 @@
               <img src="./6.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Soft chicken and yummy rice — warm and cozy! 🍚💛</p></div>
           </div>
         </div>
         <p>Hainanese Chicken Rice<br><b>$110</b></p>
@@ -196,7 +196,7 @@
               <img src="./4.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Noodles, shrimp, and peanuts — what a tasty mix! 🍤🍜</p></div>
           </div>
         </div>
         <p>Padyhai Gung Yang<br><b>$280</b></p>
@@ -212,7 +212,7 @@
               <img src="./2.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>A little sour, a little spicy — and full of fun! 🍋🔥</p></div>
           </div>
         </div>
         <p>Thai Spicy and Sour Noodles<br><b>$200</b></p>
@@ -232,7 +232,7 @@
               <img src="./10.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Sweet purple taro in creamy milk — soft and happy! 💜🥛</p></div>
           </div>
         </div>
         <p>Taro Sago With Coconut Milk<br><b>$100</b></p>
@@ -248,7 +248,7 @@
               <img src="./11.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Crunch on top, soft inside — like magic sugar! ✨</p></div>
           </div>
         </div>
         <p>Cream Brulee<br><b>$110</b></p>
@@ -264,7 +264,7 @@
               <img src="./12.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>A little burnt, a lot yummy! 🧀🔥</p></div>
           </div>
         </div>
         <p>Basque Burnt Cheesecake<br><b>$180</b></p>
@@ -280,7 +280,7 @@
               <img src="./15.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Fluffy cake with tea and strawberries — so pretty! ☁️</p></div>
           </div>
         </div>
         <p>Earl Grey Strawberry Chiffon Cake<br><b>$180</b></p>
@@ -296,7 +296,7 @@
               <img src="./17.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Soft cake roll with sweet cream — yum yum! 🍰💛</p></div>
           </div>
         </div>
         <p>Salted Cream Roll Cake<br><b>$180</b></p>
@@ -312,7 +312,7 @@
               <img src="./20.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Many thin cakes stacked tall — like a yummy tower! 🎂💚</p></div>
           </div>
         </div>
         <p>Pistachio Mille Crepe Cake<br><b>$250</b></p>
@@ -328,7 +328,7 @@
               <img src="./19.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Pink drink with mochi bits — tastes like spring! 🌸🥤</p></div>
           </div>
         </div>
         <p>Sakura Mochi Frappe<br><b>$100</b></p>
@@ -344,7 +344,7 @@
               <img src="./21.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Crunchy top, buttery heart — no pineapple, just happy! 🧈😄</p></div>
           </div>
         </div>
         <p>Hong Kong Style Butter Pineapple Bun<br><b>$130</b></p>
@@ -364,7 +364,7 @@
               <img src="./14.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Sweet orange milk tea — sip, smile, and happy! 🧡</p></div>
           </div>
         </div>
         <p>Cha Yen<br><b>$95</b></p>
@@ -380,7 +380,7 @@
               <img src="./16.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Warm milk and brown sugar — cozy and sweet! 🍯</p></div>
           </div>
         </div>
         <p>Brown Sugar Latte<br><b>$150</b></p>
@@ -396,7 +396,7 @@
               <img src="./13.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Peach and berry smoothie — like a rainbow drink! 🌈🍓</p></div>
           </div>
         </div>
         <p>Peach Berry Cream Frappe<br><b>$150</b></p>
@@ -412,7 +412,7 @@
               <img src="./18.jpg" alt="">
               <div class="hover-card"><span>Click Me!</span></div>
             </div>
-            <div class="card-back"><p>introduction</p></div>
+            <div class="card-back"><p>Bubbly and tangy — tickly and fun! ✨🍯🍋</p></div>
           </div>
         </div>
         <p>Honey Lime Sparkling Cooler<br><b>$130</b></p>
