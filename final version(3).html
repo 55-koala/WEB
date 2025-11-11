@@ -847,44 +847,50 @@ document.getElementById("closeSearch").addEventListener("click", () => {
 });
 
 
-// === 3. 搜尋邏輯 (已修正 - 移除卡片背面標記) ===
+
+// === 3. 搜尋邏輯 (已修正 - 保持原始排版) ===
 function searchKeyword() {
   const keyword = document.getElementById("keywordInput").value.trim();
   const resultMsg = document.getElementById("searchResultMsg");
   resultMsg.textContent = "";
 
-  // 清除舊標註 (已修正：只清除品項名稱的標註)
+  // 清除舊標註 - 保留原始HTML結構
   document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
-    p.innerHTML = p.textContent;
+    if (p.dataset.originalHtml) {
+      p.innerHTML = p.dataset.originalHtml;
+    }
   });
-  // (已移除對 .card-back p 的清除)
 
   if (!keyword) return;
 
   const regex = new RegExp(`(${keyword})`, "gi");
-
-  // (已修正選擇器：只選取 20 個「品項名稱」來計數)
   const items = document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type");
 
   let matchCount = 0;
   let firstMatch = null;
 
-  // 循環：只針對「品項名稱」計數並標記
   items.forEach(p => {
+    // 保存原始HTML
+    if (!p.dataset.originalHtml) {
+      p.dataset.originalHtml = p.innerHTML;
+    }
+    
     const text = p.textContent;
     if (text.match(regex)) {
       matchCount++;
-      p.innerHTML = text.replace(regex, `<mark style="background-color:yellow;">$1</mark>`);
+      // 使用更細緻的替換方式，保持 <br> 和 <b> 標籤
+      const originalHtml = p.dataset.originalHtml;
+      p.innerHTML = originalHtml.replace(regex, `<mark style="background-color:yellow;padding:2px 4px;border-radius:3px;">$1</mark>`);
       if (!firstMatch) firstMatch = p;
     }
   });
 
-  // (已移除標記卡片背面的循環 2)
-
   // 顯示結果
   if (matchCount > 0) {
     resultMsg.textContent = `Found ${matchCount} result${matchCount > 1 ? 's' : ''}`;
-    firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (firstMatch) {
+      firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   } else {
     resultMsg.textContent = "No match found.";
   }
