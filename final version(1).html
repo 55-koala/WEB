@@ -12,11 +12,9 @@
 
 <!-- Greeting -->
 <div id="greeting">
-  <div id="greeting-content">
     <h1 id="greeting1">Good Morning!</h1>
     <h2 id="welcome">Welcome to our restaurant!</h2>
     <button id="enter">Enter</button>
-  </div>
 </div>
 
 <!-- Sidebar -->
@@ -530,26 +528,34 @@ document.getElementById("myBtn").click();
 function enterGreeting() {
   var greet1 = document.getElementById("greeting1");
   var greet2 = document.getElementById("welcome");
+  var greet=document.getElementById("greeting");
   var now = new Date().getHours();
 
   if (now >= 5 && now < 12) {
     greet1.textContent = "Good Morning!";
     greet2.textContent = "Welcome to our restaurant!";
+    greet.style.background="#f0e680";
   } else if (now >= 12 && now < 17) {
     greet1.textContent = "Good Afternoon!";
     greet2.textContent = "Welcome to our restaurant!";
   } else if (now >= 17 && now < 22) {
     greet1.textContent = "Good Evening!";
     greet2.textContent = "Welcome to our restaurant!";
+    greet.style.background="#ffe4b5";
   } else {
     greet1.textContent = "Time to sleep!";
     greet2.textContent = "See you tomorrow!";
+    greet.style.background="#21416e";
   }
 }
 
 function enter(){
   document.getElementById("greeting").style.display="none";
 }
+window.onload = function() {
+  document.getElementById("enter").onclick = enter;
+  enterGreeting();
+};
 
 // Progress bar
 let currentStep = 1;
