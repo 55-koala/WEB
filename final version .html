@@ -41,10 +41,6 @@
       <a href="#beverage" class="w3-bar-item w3-button">🥤Beverage</a>
       <!--<a href="#" class="w3-bar-item w3-button">Straight</a>
     </div>
-    <a href="#" class="w3-bar-item w3-button">Jackets</a>
-    <a href="#" class="w3-bar-item w3-button">Gymwear</a>
-    <a href="#" class="w3-bar-item w3-button">Blazers</a>
-    <a href="#" class="w3-bar-item w3-button">Shoes</a>
   </div>
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>-->
 </nav>
@@ -69,7 +65,7 @@
     <p class="w3-right">
       <i class="fa fa-shopping-cart w3-margin-right" id="cartIcon"></i>
       <span id="cartCountBadge">0</span>
-      <i class="fa fa-search"></i>
+      <i class="fa fa-search id="searchIcon"></i>
     </p>
   </header>
 <div class="w3-display-container w3-container">
@@ -1008,6 +1004,15 @@ button.confirm-btn {
 .w3-container .fa-search {
   cursor: pointer;
 }
+
+
+ #cartIcon:hover, 
+#searchIcon:hover {
+  transform: scale(1.3);
+  transition: transform 0.3s ease;
+}
+
+  
 /* 讓每一項購物車項目左右排列：左邊是圖片＋文字，右邊是 delete */
 #cartList .cart-item {
   display: flex;
