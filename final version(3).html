@@ -10,6 +10,116 @@
 </head>
 <body class="w3-content" style="max-width:1200px">
 
+<!-- 🎮 INTERACTIVE GAME INTRO -->
+<div id="gameIntro">
+  <div class="gi-bg"></div>
+
+  <!-- 顏色漸層 + 圓點背景 -->
+  <div class="gi-deco gi-deco-1"></div>
+  <div class="gi-deco gi-deco-2"></div>
+  <div class="gi-deco gi-deco-3"></div>
+
+  <div class="gi-frame">
+    <!-- 左上徽章 -->
+    <div class="gi-topbar">
+      <div class="gi-chip">KIDS FOOD QUEST</div>
+      <div class="gi-top-status">
+        <span class="gi-top-label">LEVEL</span>
+        <span class="gi-top-value">1 · WELCOME</span>
+      </div>
+    </div>
+
+    <!-- 主遊戲畫面 -->
+    <div class="gi-layout">
+      <!-- 遊戲區 -->
+      <div class="gi-playwrapper">
+        <div id="giPlayfield">
+          <div class="gi-parallax gi-parallax-back"></div>
+          <div class="gi-parallax gi-parallax-mid"></div>
+          <div class="gi-ground"></div>
+
+          <!-- Logo 在遊戲中淡淡浮現 -->
+          <div class="gi-logo-ghost">Restaurant</div>
+
+          <!-- 玩家 -->
+          <div id="giPlayer">
+            <div class="gi-player-glow"></div>
+            <div class="gi-player-body">🍔</div>
+          </div>
+
+          <!-- 食物們會用 JS 動態新增 -->
+        </div>
+
+        <!-- 分數＋時間條 -->
+        <div class="gi-hud">
+          <div class="gi-hud-item">
+            <span class="gi-hud-label">SCORE</span>
+            <span id="giScoreText" class="gi-hud-value">0 / 8</span>
+          </div>
+          <div class="gi-hud-item">
+            <span class="gi-hud-label">TIME</span>
+            <span id="giTimeText" class="gi-hud-value">20s</span>
+          </div>
+          <div class="gi-hud-bar">
+            <div id="giProgressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右邊說明區 -->
+      <div class="gi-sidebar">
+        <h2 class="gi-title">
+          <span class="gi-title-top">Welcome to</span>
+          <span class="gi-title-main">Our Restaurant!</span>
+        </h2>
+        <p class="gi-desc">
+          Use <span class="gi-key">◀</span><span class="gi-key">▶</span> or
+          <span class="gi-key">A</span><span class="gi-key">D</span> to move the burger.
+          Catch the falling foods to fill the gauge!
+        </p>
+        <ul class="gi-list">
+          <li>🍕 Catch cute foods to power up the logo</li>
+          <li>🌈 More colors, more sparkles, more fun</li>
+          <li>✨ When gauge is full, the logo jumps to the center</li>
+        </ul>
+
+        <div class="gi-buttons">
+          <button id="giStartBtn" class="gi-btn gi-btn-primary">
+            START GAME
+          </button>
+          <button id="giSkipBtn" class="gi-btn gi-btn-ghost">
+            SKIP INTRO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 過關畫面 -->
+  <div id="giClearOverlay">
+    <div class="gi-clear-card">
+      <div class="gi-clear-chip">LEVEL 1 CLEAR</div>
+      <div class="gi-clear-logo">Restaurant</div>
+      <p class="gi-clear-text">Loading your lovely menu...</p>
+    </div>
+  </div>
+
+  <!-- 失敗畫面 -->
+  <div id="giFailOverlay">
+    <div class="gi-clear-card">
+      <div class="gi-clear-chip gi-fail-chip">TIME UP</div>
+      <p class="gi-clear-text">Oops! Try catching more foods!</p>
+      <button id="giRetryBtn" class="gi-btn gi-btn-primary">
+        PLAY AGAIN
+      </button>
+      <button id="giFailSkipBtn" class="gi-btn gi-btn-ghost">
+        SKIP INTRO
+      </button>
+    </div>
+  </div>
+</div>
+<!-- 🎮 END GAME INTRO -->
+
 <!-- Greeting -->
 <div id="greeting">
     <h1 id="greeting1">Good Morning!</h1>
@@ -25,8 +135,6 @@
     <h3 class="w3-wide"><b>LOGO</b></h3>
   </div>
   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <!--<a href="#" class="w3-bar-item w3-button">Shirts</a>
-    <a href="#" class="w3-bar-item w3-button">Dresses</a>-->
     <a onclick="myAccFunc()" href="javascript:void(0)"
        class="w3-button w3-block w3-white w3-left-align" id="myBtn">
       Menu <i class="fa fa-caret-down"></i>
@@ -62,22 +170,22 @@
       <i class="fa fa-search " id="searchIcon"></i>
     </p>
   </header>
-<div class="w3-display-container w3-container">
-  
-  <img src="./22.jpg" alt="Foods"
-       style="width:100%;height:400px;object-fit:cover;border-radius:20px;">
-  <div class="w3-display-topleft w3-text-white"
-       style="padding:24px 48px;">
-        <h2 id="heroTitle"
-        style="white-space:nowrap;font-size:clamp(24px,4vw,55px);margin:0;">
-      Restaurant
-    </h2>
-  </div>
-</div>
 
-<div class="w3-container w3-text-grey">
-  <p>20 items</p>
-</div>
+  <div class="w3-display-container w3-container">
+    <img src="./22.jpg" alt="Foods"
+         style="width:100%;height:400px;object-fit:cover;border-radius:20px;">
+    <div class="w3-display-topleft w3-text-white"
+         style="padding:24px 48px;">
+      <h2 id="heroTitle"
+          style="white-space:nowrap;font-size:clamp(24px,4vw,55px);margin:0;">
+        Restaurant
+      </h2>
+    </div>
+  </div>
+
+  <div class="w3-container w3-text-grey">
+    <p>20 items</p>
+  </div>
 
   <!-- Main course -->
   <section class="w3-row-padding" id="maincourse">
@@ -417,13 +525,14 @@
     <p>Get special offers and colorful surprises:</p>
     <input type="text" placeholder="Enter your e-mail">
   </div>
+
   <!-- Back to Top Button -->
-<button id="backToTop" title="Go to top">
-  <i class="fa fa-arrow-up"></i>
-</button>
+  <button id="backToTop" title="Go to top">
+    <i class="fa fa-arrow-up"></i>
+  </button>
 
   <!-- Footer -->
-<footer class="w3-padding-64 w3-small" id="footer">
+  <footer class="w3-padding-64 w3-small" id="footer">
     <div class="w3-row-padding">
       
       <div class="w3-col s4">
@@ -563,7 +672,7 @@ document.getElementById("myBtn").click();
 function enterGreeting() {
   var greet1 = document.getElementById("greeting1");
   var greet2 = document.getElementById("welcome");
-  var greet=document.getElementById("greeting");
+  var greet  = document.getElementById("greeting");
   var now = new Date().getHours();
 
   if (now >= 5 && now < 12) {
@@ -587,7 +696,6 @@ function enterGreeting() {
 function enter(){
   document.getElementById("greeting").style.display="none";
 }
-
 
 // Progress bar
 let currentStep = 1;
@@ -770,6 +878,7 @@ menuCards.forEach(card => {
     });
   }
 });
+
 // Back to top button
 const backToTopBtn = document.getElementById("backToTop");
 
@@ -788,14 +897,10 @@ backToTopBtn.addEventListener("click", () => {
   });
 });
 
-
-
-<!-- 🔍 Search Bar Function (Final Stable Version) -->
-
+// 🔍 Search Bar Function (保持原本邏輯)
 const header = document.querySelector(".w3-main header");
 const searchIcon = document.getElementById("searchIcon");
 
-// === 1. 在 header 內加入搜尋欄容器 ===
 const searchWrapper = document.createElement("div");
 searchWrapper.style.position = "absolute";
 searchWrapper.style.top = "20px";
@@ -820,8 +925,6 @@ searchWrapper.innerHTML = `
 `;
 header.appendChild(searchWrapper);
 
-
-// === 2. 顯示 / 隱藏 搜尋欄 (關閉按鈕已更新) ===
 searchIcon.addEventListener("click", () => {
   if (searchWrapper.style.display === "none") {
     searchWrapper.style.display = "flex";
@@ -831,13 +934,11 @@ searchIcon.addEventListener("click", () => {
   }
 });
 
-// (已修正清除標註的邏輯)
 document.getElementById("closeSearch").addEventListener("click", () => {
   searchWrapper.style.display = "none";
   document.getElementById("keywordInput").value = "";
   document.getElementById("searchResultMsg").textContent = "";
 
-  // 新增：關閉時也清除標註 (使用正確的選擇器)
   document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
     p.innerHTML = p.textContent;
   });
@@ -846,19 +947,13 @@ document.getElementById("closeSearch").addEventListener("click", () => {
   });
 });
 
-
-
-// === 3. 搜尋邏輯 (已修正 - 保持原始排版) ===
 function searchKeyword() {
   const keyword = document.getElementById("keywordInput").value.trim();
   const resultMsg = document.getElementById("searchResultMsg");
   resultMsg.textContent = "";
 
-  // 清除舊標註 - 保留原始HTML結構
   document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
-    if (p.dataset.originalHtml) {
-      p.innerHTML = p.dataset.originalHtml;
-    }
+    p.innerHTML = p.textContent;
   });
 
   if (!keyword) return;
@@ -870,35 +965,23 @@ function searchKeyword() {
   let firstMatch = null;
 
   items.forEach(p => {
-    // 保存原始HTML
-    if (!p.dataset.originalHtml) {
-      p.dataset.originalHtml = p.innerHTML;
-    }
-    
     const text = p.textContent;
     if (text.match(regex)) {
       matchCount++;
-      // 使用更細緻的替換方式，保持 <br> 和 <b> 標籤
-      const originalHtml = p.dataset.originalHtml;
-      p.innerHTML = originalHtml.replace(regex, `<mark style="background-color:yellow;padding:2px 4px;border-radius:3px;">$1</mark>`);
+      p.innerHTML = text.replace(regex, `<mark style="background-color:yellow;">$1</mark>`);
       if (!firstMatch) firstMatch = p;
     }
   });
 
-  // 顯示結果
   if (matchCount > 0) {
     resultMsg.textContent = `Found ${matchCount} result${matchCount > 1 ? 's' : ''}`;
-    if (firstMatch) {
-      firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+    firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
   } else {
     resultMsg.textContent = "No match found.";
   }
 }
 
-// === 4. 事件設定 ===
 document.getElementById("searchBtn").addEventListener("click", searchKeyword);
-
 document.addEventListener("keydown", e => {
   if (e.key === "Enter" && searchWrapper.style.display === "flex") {
     searchKeyword();
@@ -910,21 +993,212 @@ document.addEventListener("keydown", e => {
   }
 });
 
+// 🎮 真正可互動的小遊戲
+function initGameIntro() {
+  const intro = document.getElementById("gameIntro");
+  if (!intro) return;
 
+  const playfield = document.getElementById("giPlayfield");
+  const player = document.getElementById("giPlayer");
+  const scoreText = document.getElementById("giScoreText");
+  const timeText = document.getElementById("giTimeText");
+  const progressFill = document.getElementById("giProgressFill");
+  const clearOverlay = document.getElementById("giClearOverlay");
+  const failOverlay = document.getElementById("giFailOverlay");
 
+  const startBtn = document.getElementById("giStartBtn");
+  const skipBtn = document.getElementById("giSkipBtn");
+  const retryBtn = document.getElementById("giRetryBtn");
+  const failSkipBtn = document.getElementById("giFailSkipBtn");
 
+  let playerX = 50; // 百分比
+  let moveLeft = false;
+  let moveRight = false;
 
+  const targetScore = 8;
+  let score = 0;
+  let timeLeft = 20;
+
+  let foods = [];
+  let spawnInterval = null;
+  let gameLoopInterval = null;
+  let timerInterval = null;
+  let playing = false;
+
+  const foodEmojis = ["🍕","🍓","🥤","🍰","🍟","🌮","🍩","🍜"];
+
+  function setPlayerPosition() {
+    player.style.left = playerX + "%";
+  }
+
+  function spawnFood() {
+    const food = document.createElement("div");
+    food.className = "gi-food";
+    const emoji = foodEmojis[Math.floor(Math.random() * foodEmojis.length)];
+    food.textContent = emoji;
+
+    const startX = 10 + Math.random() * 80;
+    food.style.left = startX + "%";
+    food.style.top = "-10%";
+
+    playfield.appendChild(food);
+    foods.push({ el: food, y: -10, speed: 0.5 + Math.random() * 1.2 });
+  }
+
+  function rectsOverlap(r1, r2) {
+    return !(
+      r1.right < r2.left ||
+      r1.left > r2.right ||
+      r1.bottom < r2.top ||
+      r1.top > r2.bottom
+    );
+  }
+
+  function updateGame() {
+    // 移動玩家
+    if (moveLeft) playerX -= 1.7;
+    if (moveRight) playerX += 1.7;
+    if (playerX < 5) playerX = 5;
+    if (playerX > 95) playerX = 95;
+    setPlayerPosition();
+
+    const pfRect = playfield.getBoundingClientRect();
+    const playerRect = player.getBoundingClientRect();
+
+    foods.forEach((f, index) => {
+      f.y += f.speed;
+      f.el.style.top = f.y + "%";
+
+      const foodRect = f.el.getBoundingClientRect();
+
+      // 碰撞檢測
+      if (rectsOverlap(playerRect, foodRect)) {
+        score++;
+        if (score > targetScore) score = targetScore;
+        scoreText.textContent = `${score} / ${targetScore}`;
+        const percent = (score / targetScore) * 100;
+        progressFill.style.width = percent + "%";
+
+        f.el.classList.add("gi-food-pop");
+        setTimeout(() => f.el.remove(), 200);
+        foods.splice(index, 1);
+      }
+
+      // 掉出畫面
+      if (f.y > 120) {
+        f.el.remove();
+        foods.splice(index, 1);
+      }
+    });
+
+    if (score >= targetScore) {
+      endGame(true);
+    }
+  }
+
+  function updateTimer() {
+    timeLeft--;
+    if (timeLeft < 0) timeLeft = 0;
+    timeText.textContent = timeLeft + "s";
+
+    if (timeLeft <= 0) {
+      endGame(false);
+    }
+  }
+
+  function startGame() {
+    if (playing) return;
+    playing = true;
+    score = 0;
+    timeLeft = 20;
+    scoreText.textContent = `0 / ${targetScore}`;
+    timeText.textContent = timeLeft + "s";
+    progressFill.style.width = "0%";
+
+    foods.forEach(f => f.el.remove());
+    foods = [];
+
+    clearOverlay.classList.remove("gi-show");
+    failOverlay.classList.remove("gi-show");
+
+    spawnInterval = setInterval(spawnFood, 600);
+    gameLoopInterval = setInterval(updateGame, 20);
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+
+  function stopAllTimers() {
+    if (spawnInterval) clearInterval(spawnInterval);
+    if (gameLoopInterval) clearInterval(gameLoopInterval);
+    if (timerInterval) clearInterval(timerInterval);
+    spawnInterval = gameLoopInterval = timerInterval = null;
+  }
+
+  function endGame(success) {
+    if (!playing) return;
+    playing = false;
+    stopAllTimers();
+
+    if (success) {
+      clearOverlay.classList.add("gi-show");
+
+      setTimeout(() => {
+        intro.classList.add("gi-fadeout");
+        setTimeout(() => {
+          intro.remove();
+          document.body.style.overflow = "auto";
+        }, 800);
+      }, 1300);
+    } else {
+      failOverlay.classList.add("gi-show");
+    }
+  }
+
+  function skipIntro() {
+    stopAllTimers();
+    intro.classList.add("gi-fadeout");
+    setTimeout(() => {
+      intro.remove();
+      document.body.style.overflow = "auto";
+    }, 600);
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      moveLeft = true;
+    }
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      moveRight = true;
+    }
+  });
+
+  document.addEventListener("keyup", e => {
+    if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      moveLeft = false;
+    }
+    if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      moveRight = false;
+    }
+  });
+
+  startBtn.addEventListener("click", startGame);
+  skipBtn.addEventListener("click", skipIntro);
+  if (retryBtn) retryBtn.addEventListener("click", () => {
+    failOverlay.classList.remove("gi-show");
+    startGame();
+  });
+  if (failSkipBtn) failSkipBtn.addEventListener("click", skipIntro);
+
+  document.body.style.overflow = "hidden";
+
+  setPlayerPosition();
+}
 
 // On load
 window.onload = function() {
   document.getElementById("enter").onclick = enter;
   enterGreeting();
+  initGameIntro();
 };
-
-
-
-
-
 </script>
 
 <style>
@@ -1018,8 +1292,6 @@ footer a {
 footer a:hover {
   color: #FF69B4;
 }
-
-/* 幫 footer 中的標題和段落加上一些間距 */
 footer h4 {
   font-weight: bold;
   margin-top: 16px;
@@ -1028,12 +1300,10 @@ footer h4 {
 footer p {
   margin-bottom: 8px;
 }
-/* 讓表單輸入框和按鈕的邊角更銳利，以符合圖片 */
 footer .w3-input,
 footer .w3-button {
   border-radius: 0;
 }
-/* 幫社群圖示增加一點間距 */
 footer .w3-large {
   margin-right: 5px;
   cursor: pointer;
@@ -1186,19 +1456,16 @@ button.confirm-btn {
 .w3-container .fa-search {
   cursor: pointer;
 }
-
-
- #cartIcon:hover, 
+#cartIcon:hover, 
 #searchIcon:hover {
   transform: scale(1.3);
   transition: transform 0.3s ease;
 }
 
-  
-/* 讓每一項購物車項目左右排列：左邊是圖片＋文字，右邊是 delete */
+/* Cart item layout */
 #cartList .cart-item {
   display: flex;
-  justify-content: space-between; /* 左右兩側分開 */
+  justify-content: space-between;
   align-items: flex-start;
   border: 2px dashed #FFB347;
   border-radius: 15px;
@@ -1206,16 +1473,12 @@ button.confirm-btn {
   padding: 12px 16px;
   margin-bottom: 12px;
 }
-
-/* 左側：圖片＋文字區 */
 #cartList .cart-item-info {
   flex: 1;
   margin-left: 10px;
   color: #222;
   font-weight: 500;
 }
-
-/* 右側 delete 按鈕固定靠右、垂直置中 */
 #cartList .remove-btn {
   align-self: center;
   margin-left: auto;
@@ -1227,14 +1490,10 @@ button.confirm-btn {
   cursor: pointer;
   transition: transform 0.2s, color 0.2s;
 }
-
-/* hover 效果 */
 #cartList .remove-btn:hover {
   color: #ff0000;
   transform: scale(1.1);
 }
-
-/* 調整圖片圓角與外框 */
 #cartList img {
   width: 70px;
   height: 70px;
@@ -1309,6 +1568,8 @@ button.confirm-btn {
   opacity:1;
   cursor: pointer;
 }
+
+/* Progress bar */
 .progress-container {
   position:fixed;
   bottom:0;
@@ -1372,6 +1633,8 @@ button.confirm-btn {
   width:0%;
   transition:width 0.5s;
 }
+
+/* Back to Top */
 #backToTop {
   position: fixed;
   bottom: 80px;
@@ -1394,22 +1657,18 @@ button.confirm-btn {
   justify-content: center;
   margin-left:10px;
 }
-
 #backToTop.show {
   opacity: 1;
   visibility: visible;
 }
-
 #backToTop:hover {
   transform: translateY(-5px) scale(1.1);
   box-shadow: 0 6px 20px rgba(255, 107, 129, 0.6);
   background: linear-gradient(135deg, #FFB347, #FF9AA2);
 }
-
 #backToTop:active {
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(0) scale(0.95);
 }
-
 @media (max-width: 600px) {
   #backToTop {
     bottom: 90px;
@@ -1420,32 +1679,446 @@ button.confirm-btn {
   }
 }
 
+/* Hero Title 不換行 */
 #heroTitle {
-  white-space: nowrap !important;  /* 一律不換行 */
-  word-break: keep-all;            /* 不隨便拆字 */
+  white-space: nowrap !important;
+  word-break: keep-all;
   max-width: 100%;
-  font-size: clamp(20px, 4vw, 40px); /* 小螢幕自動縮小字體，避免超出去 */
+  font-size: clamp(20px, 4vw, 40px);
 }
-
-
-/* 針對平板寬度（例如1024以下）再調整字體 */
 @media (max-width: 1024px) {
   #heroTitle {
     font-size: clamp(20px, 4vw, 40px);
   }
 }
 
+/* 🎮 INTERACTIVE GAME INTRO STYLES */
+#gameIntro {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 10% 0%, #ffe4f8 0, transparent 55%),
+              radial-gradient(circle at 90% 100%, #ffe5c4 0, transparent 55%),
+              radial-gradient(circle at 50% 100%, #c9f1ff 0, transparent 45%),
+              #ffbad1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 100000;
+  font-family: 'Baloo 2', cursive;
+}
+.gi-bg {
+  position: absolute;
+  inset: -60px;
+  background:
+    radial-gradient(circle at 15% 25%, #ffffff 0, transparent 60%),
+    radial-gradient(circle at 85% 70%, #fff7e5 0, transparent 60%),
+    linear-gradient(135deg, rgba(255,255,255,0.5), transparent 40%);
+  opacity: 0;
+  animation: giBgIn 0.8s ease-out forwards;
+}
+.gi-deco {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+}
+.gi-deco-1 {
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, #ff9aa2, transparent 60%);
+  top: -40px;
+  left: -60px;
+}
+.gi-deco-2 {
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, #ffdf6b, transparent 60%);
+  bottom: -40px;
+  right: -40px;
+}
+.gi-deco-3 {
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, #a6e3ff, transparent 60%);
+  bottom: 20%;
+  left: 60%;
+}
+.gi-frame {
+  position: relative;
+  width: min(960px, 94%);
+  max-height: 520px;
+  padding: 22px 22px 20px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #fff9ff, #ffeef6);
+  box-shadow: 0 20px 50px rgba(255, 106, 149, 0.55);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+.gi-topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  color:#ff4f7b;
+}
+.gi-chip {
+  padding:6px 14px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ffb9d9,#ffe6f4);
+  color:#7b2640;
+  font-size:14px;
+  box-shadow:0 5px 12px rgba(255,143,186,0.7);
+  border:2px solid #ffe5f0;
+}
+.gi-top-status{
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+}
+.gi-top-label{
+  font-size:13px;
+  opacity:0.7;
+}
+.gi-top-value{
+  font-size:15px;
+}
 
-#backToTop:active {
-    transform: translateY(0) scale(0.95);
+/* layout */
+.gi-layout{
+  display:flex;
+  gap:18px;
+}
+.gi-playwrapper{
+  flex:1.2;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+#giPlayfield{
+  position:relative;
+  width:100%;
+  height:260px;
+  border-radius:22px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#ffeefb,#ffe0f0 40%,#ffd3e8 65%,#ffe9c7 75%,#ffc76f 100%);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.9),
+              0 10px 20px rgba(255, 148, 177, 0.6);
+}
+.gi-parallax{
+  position:absolute;
+  inset:0;
+  opacity:0.5;
+  pointer-events:none;
+}
+.gi-parallax-back{
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0, transparent 60%),
+    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.8) 0, transparent 55%),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0, transparent 55%);
+  animation: giParaBack 18s linear infinite;
+}
+.gi-parallax-mid{
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.6) 2px, transparent 2px);
+  background-size: 26px 26px;
+  opacity:0.4;
+  animation: giParaMid 10s linear infinite;
+}
+.gi-ground{
+  position:absolute;
+  left:-30px;
+  right:-30px;
+  bottom:16px;
+  height:38px;
+  border-radius:40px;
+  background:linear-gradient(180deg,#ffe4c0,#ffc46c);
+  box-shadow:0 10px 20px rgba(255,173,91,0.7);
+}
+.gi-ground::before{
+  content:"";
+  position:absolute;
+  inset:8px 18px;
+  border-radius:999px;
+  background-image:linear-gradient(90deg,rgba(255,255,255,0.85) 16px,transparent 16px,transparent 30px);
+  background-size:32px 100%;
+  opacity:0.85;
+  animation: giTrackMove 2s linear infinite;
+}
+
+.gi-logo-ghost{
+  position:absolute;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:26px;
+  color:rgba(255,255,255,0.8);
+  text-shadow:0 0 10px rgba(255,104,167,0.7);
+  letter-spacing:2px;
+  pointer-events:none;
+}
+
+/* Player */
+#giPlayer{
+  position:absolute;
+  bottom:36px;
+  left:50%;
+  transform:translateX(-50%);
+  width:60px;
+  height:60px;
+  pointer-events:none;
+}
+.gi-player-glow{
+  position:absolute;
+  inset:6px;
+  border-radius:18px;
+  background:radial-gradient(circle,#fff7d6 0,#ffc76f 50%,transparent 70%);
+  opacity:0.8;
+  filter:blur(5px);
+}
+.gi-player-body{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  background:#fff9f3;
+  border-radius:18px;
+  border:3px solid #ffb36c;
+  box-shadow:0 6px 14px rgba(255,159,92,0.9);
+}
+
+/* HUD */
+.gi-hud{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.gi-hud-item{
+  background:#fff9ff;
+  border-radius:999px;
+  padding:6px 10px;
+  border:2px solid #ffd2eb;
+  box-shadow:0 3px 8px rgba(255,184,211,0.7);
+  display:flex;
+  flex-direction:column;
+}
+.gi-hud-label{
+  font-size:11px;
+  opacity:0.7;
+}
+.gi-hud-value{
+  font-size:14px;
+  color:#ff4f7b;
+}
+.gi-hud-bar{
+  flex:1;
+  height:12px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.85);
+  box-shadow:0 4px 10px rgba(255,153,177,0.7);
+  overflow:hidden;
+}
+#giProgressFill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff9aa2,#ffb347,#a6e3ff);
+  transition:width 0.25s ease-out;
+}
+
+/* 右側文字 */
+.gi-sidebar{
+  flex:0.9;
+  padding:10px 6px 0 4px;
+  color:#7b2640;
+}
+.gi-title{
+  margin:0 0 8px;
+}
+.gi-title-top{
+  font-size:16px;
+  opacity:0.8;
+}
+.gi-title-main{
+  font-size:26px;
+  display:block;
+  color:#ff4f7b;
+  text-shadow:0 0 12px rgba(255,255,255,0.9);
+}
+.gi-desc{
+  font-size:14px;
+  line-height:1.4;
+  margin-bottom:8px;
+}
+.gi-key{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:2px 6px;
+  margin:0 1px;
+  border-radius:5px;
+  background:#fff;
+  border:1px solid #ffcadd;
+  font-size:12px;
+  box-shadow:0 2px 4px rgba(255,164,196,0.7);
+}
+.gi-list{
+  padding-left:18px;
+  margin:0 0 14px;
+  font-size:13px;
+  line-height:1.5;
+}
+.gi-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.gi-btn{
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:13px;
+  border:none;
+  cursor:pointer;
+  transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.gi-btn-primary{
+  background:linear-gradient(135deg,#ff7ba5,#ffb347);
+  color:#fff;
+  box-shadow:0 6px 14px rgba(255,118,159,0.8);
+}
+.gi-btn-primary:hover{
+  transform:translateY(-1px) scale(1.03);
+  box-shadow:0 8px 18px rgba(255,118,159,0.9);
+}
+.gi-btn-ghost{
+  background:rgba(255,255,255,0.9);
+  color:#ff4f7b;
+  border:2px solid #ffd4ea;
+  box-shadow:0 4px 10px rgba(255,176,205,0.7);
+}
+.gi-btn-ghost:hover{
+  transform:translateY(-1px);
+}
+
+/* Food items */
+.gi-food{
+  position:absolute;
+  width:40px;
+  height:40px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  background:#fffdf8;
+  border:3px solid #ffd973;
+  box-shadow:0 6px 12px rgba(255,217,115,0.9);
+}
+.gi-food-pop{
+  animation: giFoodPop 0.2s ease forwards;
+}
+
+/* Clear / Fail overlay */
+#giClearOverlay,
+#giFailOverlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 0.35s ease;
+}
+#giClearOverlay.gi-show,
+#giFailOverlay.gi-show{
+  opacity:1;
+  pointer-events:auto;
+}
+.gi-clear-card{
+  min-width:260px;
+  padding:16px 20px;
+  border-radius:20px;
+  background:rgba(255,252,255,0.98);
+  border:2px solid #ffe0f1;
+  box-shadow:0 10px 26px rgba(255,125,169,0.7);
+  text-align:center;
+}
+.gi-clear-chip{
+  display:inline-block;
+  padding:4px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ffb347,#ff9aa2);
+  color:#fff;
+  font-size:13px;
+  margin-bottom:6px;
+}
+.gi-fail-chip{
+  background:linear-gradient(135deg,#ff7b7b,#ffb347);
+}
+.gi-clear-logo{
+  font-size:26px;
+  color:#ff4f7b;
+  margin-bottom:4px;
+}
+.gi-clear-text{
+  font-size:14px;
+  color:#7b2640;
+}
+
+/* Intro fade */
+#gameIntro.gi-fadeout{
+  animation: giIntroFade 0.7s ease forwards;
+}
+
+/* Animations */
+@keyframes giBgIn{
+  from{opacity:0; transform:scale(1.05);}
+  to{opacity:1; transform:scale(1);}
+}
+@keyframes giParaBack{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-30px);}
+}
+@keyframes giParaMid{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-60px);}
+}
+@keyframes giTrackMove{
+  0%{background-position-x:0;}
+  100%{background-position-x:-32px;}
+}
+@keyframes giFoodPop{
+  0%{transform:scale(1); opacity:1;}
+  100%{transform:scale(0.2); opacity:0;}
+}
+@keyframes giIntroFade{
+  0%{opacity:1;}
+  100%{opacity:0; visibility:hidden;}
+}
+
+@media (max-width: 820px){
+  .gi-layout{
+    flex-direction:column;
   }
+  .gi-sidebar{
+    padding-top:2px;
+  }
+}
 
-#backToTop.at-order-position {
-    /* 這是火箭的新位置，您可以調整 '350px' 這個數字 */
-    bottom: 350px;
-    transition: all 0.3s ease; /* 確保移動是平滑的 */
-  }  
-
+@media (max-width: 600px){
+  .gi-frame{
+    padding:16px 14px;
+  }
+  #giPlayfield{
+    height:230px;
+  }
+  .gi-logo-ghost{
+    font-size:22px;
+  }
+}
 </style>
 
 </body>
