@@ -1597,8 +1597,8 @@ if (isset($_POST["login"])) {
 
     <!-- Hero -->
     <div class="w3-display-container w3-container">
-      <img src="./3.jpg" alt="Foods"
-           style="width:100%;height:600px;object-fit:cover;border-radius:20px;">
+      <img src="./22.jpg" alt="Foods"
+       style="width:100%;height:400px;object-fit:cover;border-radius:20px;">
     </div>
 
     <div class="w3-container w3-text-grey">
@@ -3011,3 +3011,4 @@ if (isset($_POST["login"])) {
   </script>
 </body>
 </html>
+
