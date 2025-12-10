@@ -2433,34 +2433,46 @@ addButtons.forEach(btn => {
 
     // Confirm add item
     confirmAddBtn.addEventListener("click", () => {
-      const note = document.getElementById("noteText").value;
-      let ice = "", sugar = "";
-      if (selectedItem && selectedItem.hasOptions) {
-        const iceInput = noteModal.querySelector('input[name="ice1"]:checked');
-        const sugarInput = noteModal.querySelector('input[name="sugar1"]:checked');
-        if (iceInput) ice = iceInput.value;
-        if (sugarInput) sugar = sugarInput.value;
-      }
+  const note = document.getElementById("noteText").value.trim();
+  let ice = "", sugar = "";
+  if (selectedItem && selectedItem.hasOptions) {
+    const iceInput = noteModal.querySelector('input[name="ice1"]:checked');
+    const sugarInput = noteModal.querySelector('input[name="sugar1"]:checked');
+    if (iceInput) ice = iceInput.value;
+    if (sugarInput) sugar = sugarInput.value;
+  }
 
-      if (selectedItem) {
-        if (editingIndex !== null) {
-          cart[editingIndex] = {
-            ...selectedItem,
-            note,
-            ice,
-            sugar,
-            quantity: cart[editingIndex].quantity
-          };
-          editingIndex = null;
-        } else {
-          cart.push({ ...selectedItem, note, ice, sugar, quantity: 1 });
-        }
-        cartCountBadge.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-      }
-      document.getElementById("noteText").value = "";
-      noteModal.style.display = "none";
-      updateProgressBar(1);
-    });
+  if (selectedItem) {
+    if (editingIndex !== null) {
+      // ✏️ 編輯原本那一筆
+      cart[editingIndex] = {
+        ...selectedItem,
+        note,
+        ice,
+        sugar,
+        quantity: cart[editingIndex].quantity
+      };
+      editingIndex = null;
+    } else {
+      // ➕ 新增一筆
+      cart.push({ ...selectedItem, note, ice, sugar, quantity: 1 });
+    }
+
+    // 更新小紅點
+    cartCountBadge.textContent =
+      cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    // ⭐⭐ 重點：如果此時購物車是打開的，就立刻重畫畫面
+    if (cartModal.style.display === "block") {
+      renderCart();
+    }
+  }
+
+  document.getElementById("noteText").value = "";
+  noteModal.style.display = "none";
+  updateProgressBar(1);
+});
+
 
     // Cancel add
     cancelAddBtn.addEventListener("click", () => {
