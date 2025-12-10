@@ -1,28 +1,36 @@
 <?php
 session_start();
 
-/* ==== 連線到 Railway MySQL ==== */
+/* ==== 連線到 Railway MySQL（PDO）==== */
 $servername = "shinkansen.proxy.rlwy.net";
-$username = "root";
-$password = "你的Railway密碼";
-$dbname = "railway";
-$port = 19411;
+$username   = "root";
+$password   = "你的Railway密碼";
+$dbname     = "railway";
+$port       = 19411;
 
-$conn = new mysqli($servername, $username, $password, $dbname, $port);
+$dsn = "mysql:host=$servername;port=$port;dbname=$dbname;charset=utf8mb4";
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
 
 $login_message = "";
+
+/* ==== 登出 ==== */
 if (isset($_POST["logout"])) {
     session_destroy();
     header("Location: index.php");
     exit;
 }
 
-/* ==== 處理登入 ==== */
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+/* ==== 登入處理（PDO）==== */
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
+
     $acc = trim($_POST["acc"] ?? "");
     $pwd = trim($_POST["pwd"] ?? "");
 
@@ -30,15 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $login_message = "Please enter both account and password ❌";
     } else {
 
-        // 查詢 users 表
-        $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $acc, $pwd);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // ⭐ 使用 PDO 版本的 prepared statement
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+        $stmt->execute([$acc, $pwd]);
 
-        // 是否找到帳號
-        if ($result->num_rows === 1) {
+        $user = $stmt->fetch();
+
+        if ($user) {
             $_SESSION["username"] = $acc;
             $login_message = "Login successful! Welcome, $acc 😊";
         } else {
@@ -47,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
