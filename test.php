@@ -1,51 +1,4 @@
 <?php
-// ------------------ 資料庫連線設定 ------------------
-$servername = "localhost";
-$username = "root";  // 預設帳號
-$password = "";      // 預設密碼通常為空
-$dbname = "kirby cafe"; // 資料庫名稱 (有空白，程式碼中字串可以直接用)
-
-// 建立連線
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// 檢查連線
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// ------------------ 接收訂單並存入資料庫 ------------------
-// 讀取來自 JS 的 JSON 資料
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE);
-
-if (isset($input['action']) && $input['action'] == 'submit_order') {
-    // 將購物車陣列轉成 JSON 字串儲存
-    $order_content = json_encode($input['cart'], JSON_UNESCAPED_UNICODE); 
-    $total_price = $input['total'];
-    
-    // 設定時間
-    date_default_timezone_set('Asia/Taipei');
-    $order_time = date("Y-m-d H:i:s");
-
-    // SQL 語法：請確認您的資料表 order_list 裡面的欄位名稱
-    // 假設欄位是: content (存餐點), price (存總價), time (存時間)
-    $sql = "INSERT INTO order_list (content, price, time) VALUES (?, ?, ?)";
-    
-    $stmt = $conn->prepare($sql);
-    // s = string (字串), i = integer (整數)
-    $stmt->bind_param("sis", $order_content, $total_price, $order_time); 
-
-    if ($stmt->execute()) {
-        echo json_encode(["status" => "success", "message" => "訂單已送出"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "錯誤: " . $conn->error]);
-    }
-    
-    $stmt->close();
-    exit(); // 重要：結束 PHP，避免回傳多餘的 HTML
-}
-
-
 // ------------------ Login 處理 ------------------
 $login_message = "";
 
@@ -60,6 +13,9 @@ if (isset($_POST["login"])) {
         $login_message = "Please enter both account and password ❌";
     }
 }
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -290,17 +246,18 @@ if (isset($_POST["login"])) {
       box-sizing:border-box;
     }
     #noteModal {
-      border:3px solid #bbe8f9;
-      background:#fdfdfd;
-      padding:30px;
-      border-radius:20px;
-      display:none;
-      position:fixed;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-      z-index:1000;
-    }
+  border:3px solid #bbe8f9;
+  background:#fdfdfd;
+  padding:30px;
+  border-radius:20px;
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:1200;  /* 調高，讓 noteModal 蓋在 cartModal 前面 */
+}
+
     #noteModal textarea {
       border-radius:12px;
       border:2px solid #FFB347;
@@ -1318,6 +1275,20 @@ if (isset($_POST["login"])) {
       font-size:14px;
       color:#7b2640;
     }
+    #cartList .edit-note-btn {
+  background: none;
+  border: none;
+  color: #ff9a00;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+#cartList .edit-note-btn:hover {
+  color: #ff6b00;
+  transform: scale(1.05);
+}
+
     #gameIntro.gi-fadeout{
       animation: giIntroFade 0.7s ease forwards;
     }
@@ -2257,7 +2228,7 @@ if (isset($_POST["login"])) {
 
   <!-- Note Modal -->
   <div id="noteModal">
-    <h3 style="margin-top:0;">Drink options</h3>
+    <h3 style="margin-top:0;">Add Note</h3>
     <div class="option-group" style="margin-bottom:10px;">
       <label>Ice Level:</label><br>
       <input type="radio" name="ice1" value="Normal" checked> Regular
@@ -2430,29 +2401,38 @@ if (isset($_POST["login"])) {
     const payBtn = document.getElementById("payBtn");
 
     // Add to cart: open note modal
-    addButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        selectedItem = {
-          name: btn.dataset.name,
-          price: btn.dataset.price,
-          img: btn.dataset.img,
-          hasOptions: btn.dataset.hasOptions === "true"
-        };
-        const groups = noteModal.querySelectorAll('.option-group');
-        const iceGroup = groups[0];
-        const sugarGroup = groups[1];
+addButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    selectedItem = {
+      name: btn.dataset.name,
+      price: btn.dataset.price,
+      img: btn.dataset.img,
+      hasOptions: btn.dataset.hasOptions === "true"
+    };
 
-        if (selectedItem.hasOptions) {
-          iceGroup.style.display = "block";
-          sugarGroup.style.display = "block";
-        } else {
-          iceGroup.style.display = "none";
-          sugarGroup.style.display = "none";
-        }
-        document.getElementById("noteText").value = "";
-        noteModal.style.display = "block";
-      });
-    });
+    //✅ 一定是新增，不是編輯
+    editingIndex = null;
+
+    const groups = noteModal.querySelectorAll('.option-group');
+    const iceGroup = groups[0];
+    const sugarGroup = groups[1];
+
+    if (selectedItem.hasOptions) {
+      iceGroup.style.display = "block";
+      sugarGroup.style.display = "block";
+
+      // 預設選回 Regular
+      noteModal.querySelectorAll('input[name="ice1"]').forEach(r => r.checked = (r.value === "Normal"));
+      noteModal.querySelectorAll('input[name="sugar1"]').forEach(r => r.checked = (r.value === "Normal"));
+
+    } else {
+      iceGroup.style.display = "none";
+      sugarGroup.style.display = "none";
+    }
+    document.getElementById("noteText").value = "";
+    noteModal.style.display = "block";
+  });
+});
 
     // Confirm add item
     confirmAddBtn.addEventListener("click", () => {
@@ -2505,20 +2485,22 @@ if (isset($_POST["login"])) {
         let noteHTML = item.note ? `Note: ${item.note}` : '';
 
         div.innerHTML = `
-          <img src="${item.img}">
-          <div class="cart-item-info">
-            <b>${item.name}</b><br>
-            $${item.price} × ${item.quantity}<br>
-            ${optionsHTML}
-            ${noteHTML}
-          </div>
-          <div class="cart-item-controls">
-            <button class="qty-btn minus-btn" data-index="${index}">−</button>
-            <span class="qty-display">${item.quantity}</span>
-            <button class="qty-btn plus-btn" data-index="${index}">+</button>
-            <button class="remove-btn" data-index="${index}">delete</button>
-          </div>
-        `;
+  <img src="${item.img}">
+  <div class="cart-item-info">
+    <b>${item.name}</b><br>
+    $${item.price} × ${item.quantity}<br>
+    ${optionsHTML}
+    ${noteHTML}
+  </div>
+  <div class="cart-item-controls">
+    <button class="qty-btn minus-btn" data-index="${index}">−</button>
+    <span class="qty-display">${item.quantity}</span>
+    <button class="qty-btn plus-btn" data-index="${index}">+</button>
+    <button class="edit-note-btn" data-index="${index}">edit</button>
+    <button class="remove-btn" data-index="${index}">delete</button>
+  </div>
+`;
+
         cartList.appendChild(div);
       });
     }
@@ -2530,25 +2512,75 @@ if (isset($_POST["login"])) {
       updateProgressBar(2);
     });
 
-    // Cart click events (delete / + / -)
     cartList.addEventListener("click", (e) => {
-      const index = parseInt(e.target.dataset.index, 10);
-      if (Number.isNaN(index)) return;
+  const index = parseInt(e.target.dataset.index, 10);
+  if (Number.isNaN(index)) return;
 
-      if (e.target.classList.contains("remove-btn")) {
-        cart.splice(index, 1);
-      } else if (e.target.classList.contains("plus-btn")) {
-        cart[index].quantity++;
-      } else if (e.target.classList.contains("minus-btn")) {
-        if (cart[index].quantity > 1) {
-          cart[index].quantity--;
-        } else {
-          cart.splice(index, 1);
-        }
+  if (e.target.classList.contains("remove-btn")) {
+    // 刪除
+    cart.splice(index, 1);
+
+  } else if (e.target.classList.contains("plus-btn")) {
+    // + 數量
+    cart[index].quantity++;
+
+  } else if (e.target.classList.contains("minus-btn")) {
+    // - 數量
+    if (cart[index].quantity > 1) {
+      cart[index].quantity--;
+    } else {
+      cart.splice(index, 1);
+    }
+
+  } else if (e.target.classList.contains("edit-note-btn")) {
+    // ✅ 編輯備註
+    const item = cart[index];
+    selectedItem = {
+      name: item.name,
+      price: item.price,
+      img: item.img,
+      hasOptions: item.hasOptions
+    };
+    editingIndex = index; // 告訴 confirmAdd：這是編輯不是新增
+
+    const groups = noteModal.querySelectorAll('.option-group');
+    const iceGroup = groups[0];
+    const sugarGroup = groups[1];
+
+    if (item.hasOptions) {
+      iceGroup.style.display = "block";
+      sugarGroup.style.display = "block";
+
+      // 先全部取消勾選
+      noteModal.querySelectorAll('input[name="ice1"]').forEach(r => r.checked = false);
+      noteModal.querySelectorAll('input[name="sugar1"]').forEach(r => r.checked = false);
+
+      // 再勾目前的選項（如果有）
+      if (item.ice) {
+        const iceRadio = noteModal.querySelector(`input[name="ice1"][value="${item.ice}"]`);
+        if (iceRadio) iceRadio.checked = true;
       }
-      cartCountBadge.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-      renderCart();
-    });
+      if (item.sugar) {
+        const sugarRadio = noteModal.querySelector(`input[name="sugar1"][value="${item.sugar}"]`);
+        if (sugarRadio) sugarRadio.checked = true;
+      }
+    } else {
+      iceGroup.style.display = "none";
+      sugarGroup.style.display = "none";
+    }
+
+    // 帶入原本備註
+    document.getElementById("noteText").value = item.note || "";
+
+    // 打開 modal
+    noteModal.style.display = "block";
+    return; // 下面的 renderCart 就先不要執行
+  }
+
+  cartCountBadge.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+  renderCart();
+});
+
 
     // Close cart
     closeCartBtn.addEventListener("click", () => {
@@ -2614,51 +2646,96 @@ if (isset($_POST["login"])) {
       updateProgressBar(2);
     });
 
-    // Checkout Pay (修改後：連結資料庫版本)
-payBtn.addEventListener("click", () => {
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-    }
+    // 在 test.php 中找到 payBtn.addEventListener 這段程式碼
+// 替換成以下內容：
 
-    // 1. 計算總金額 (確保是數字，不含 $ 符號)
-    let totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+// Checkout Pay - 提交訂單到資料庫
+payBtn.addEventListener("click", async () => {
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+  const methodText = paymentMethod === 'credit' ? 'Credit Card' : 'Cash';
+  const total = document.getElementById("totalAmount").textContent;
 
-    // 2. 準備要傳給 PHP 的資料
-    let orderData = {
-        action: 'submit_order',
-        cart: cart,
-        total: totalAmount
-    };
+  // 檢查購物車是否為空
+  if (cart.length === 0) {
+    alert("購物車是空的！");
+    return;
+  }
 
-    // 3. 傳送資料
-    fetch(window.location.href, { // 傳送給自己 (目前的 PHP 頁面)
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => response.json()) // 解析 PHP 回傳的 JSON
-    .then(data => {
-        if (data.status === "success") {
-            // 成功：跳出通知、更新進度條、清空購物車
-            updateProgressBar(4);
-            setTimeout(() => {
-                alert("🎉 Order saved to database successfully!"); 
-                cart = [];
-                renderCart();
-                cartCountBadge.textContent = 0;
-                checkoutModal.style.display = "none";
-                updateProgressBar(1);
-            }, 300);
-        } else {
-            // 失敗：顯示錯誤訊息 (例如資料庫連線失敗)
-            alert("Order failed: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Connection error. Please try again.");
+  // 詢問客戶姓名
+  const customerName = prompt("請輸入您的姓名：");
+  
+  if (!customerName || customerName.trim() === "") {
+    alert("請輸入有效的姓名！");
+    return;
+  }
+
+  // 準備訂單資料
+  const orderData = {
+    name: customerName.trim(),
+    items: cart.map(item => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      ice: item.ice || '',
+      sugar: item.sugar || '',
+      note: item.note || ''
+    })),
+    payment_method: methodText
+  };
+
+  // 顯示載入中
+  payBtn.disabled = true;
+  payBtn.textContent = "處理中...";
+
+  try {
+    // 發送 AJAX 請求到後端
+    const response = await fetch('submit_order.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderData)
     });
+
+    const result = await response.json();
+
+    if (result.success) {
+      updateProgressBar(4);
+      
+      setTimeout(() => {
+        alert(
+          `付款成功！ 🎉\n\n` +
+          `訂單編號：${result.order_id}\n` +
+          `客戶姓名：${customerName}\n` +
+          `付款方式：${methodText}\n` +
+          `總金額：${total}\n\n` +
+          `感謝您的光臨！`
+        );
+        
+        // 清空購物車
+        cart = [];
+        renderCart();
+        cartCountBadge.textContent = 0;
+        checkoutModal.style.display = "none";
+        updateProgressBar(1);
+        
+        // 恢復按鈕狀態
+        payBtn.disabled = false;
+        payBtn.textContent = "Confirm Payment";
+      }, 300);
+      
+    } else {
+      alert(`訂單提交失敗：${result.message}`);
+      payBtn.disabled = false;
+      payBtn.textContent = "Confirm Payment";
+    }
+    
+  } catch (error) {
+    console.error('錯誤：', error);
+    alert(`發生錯誤：${error.message}\n請檢查網路連線或聯繫客服。`);
+    payBtn.disabled = false;
+    payBtn.textContent = "Confirm Payment";
+  }
 });
 
     // Flip cards：用按鈕控制翻面，點背面翻回來
@@ -3077,62 +3154,6 @@ payBtn.addEventListener("click", () => {
       });
     }
 
-
-    // 請放在原本的 JS 程式碼後段
-
-// 取得結帳按鈕 (請確認 HTML 裡的 ID 是否為 realCheckoutBtn)
-const realCheckoutBtn = document.getElementById("realCheckoutBtn");
-
-if (realCheckoutBtn) {
-    realCheckoutBtn.addEventListener("click", function() {
-        if (cart.length === 0) {
-            alert("購物車是空的！");
-            return;
-        }
-
-        // 計算總金額 (根據您的 cart 結構)
-        let totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-        // 準備要傳送的資料
-        let orderData = {
-            action: 'submit_order',
-            cart: cart,
-            total: totalAmount
-        };
-
-        // 使用 fetch 傳送給現在這個 PHP 檔案
-        fetch(window.location.href, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(orderData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert("🎉 訂單已成功送出！");
-                
-                // 清空購物車與畫面
-                cart = [];
-                renderCart();
-                document.getElementById("checkoutModal").style.display = "none";
-                
-                // (選用) 更新進度條到完成
-                if(typeof updateProgressBar === "function") {
-                    updateProgressBar(4);
-                }
-            } else {
-                alert("訂單失敗：" + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("連線發生錯誤");
-        });
-    });
-}
-
     window.onload = function() {
       document.getElementById("myBtn").click();
       document.getElementById("enter").onclick = enter;
@@ -3144,4 +3165,3 @@ if (realCheckoutBtn) {
   </script>
 </body>
 </html>
-
