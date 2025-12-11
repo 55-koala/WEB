@@ -68,8 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- 你原本的外部檔 -->
-  <link rel="stylesheet" href="newstyle.css">
-  <script src="myscript.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 
   <style>
     /* Lightbox 背景 */
