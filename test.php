@@ -1,4 +1,13 @@
 <?php
+session_start(); 
+// ------------------ Logout 處理（新增） ------------------
+if (isset($_POST["logout"])) {
+    session_unset();
+    session_destroy();
+    header("Location: " . $_SERVER["PHP_SELF"]);
+    exit;
+}
+
 // ------------------ Login 處理 ------------------
 $login_message = "";
 
@@ -8,6 +17,8 @@ if (isset($_POST["login"])) {
 
     // 只要有輸入帳號密碼就登入成功
     if ($acc !== "" && $pwd !== "") {
+        $_SESSION["logged_in"] = true;   // ←【新增】
+        $_SESSION["user"] = $acc;        // ←【新增（可選）】
         $login_message = "Login successful! Welcome, $acc 😊";
     } else {
         $login_message = "Please enter both account and password ❌";
@@ -1422,6 +1433,18 @@ if (isset($_POST["login"])) {
         font-size: 13px;
       }
     }
+
+
+    #greetingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 8999;
+  display: block;
+}
   </style>
 </head>
 
@@ -1530,6 +1553,8 @@ if (isset($_POST["login"])) {
   <!-- 🎮 END GAME INTRO -->
 
   <!-- Greeting -->
+   <!-- Greeting 遮罩層 -->
+<div id="greetingOverlay"></div>
   <div id="greeting">
     <h1 id="greeting1">Good Morning!</h1>
     <h2 id="welcome">Welcome to our restaurant!</h2>
@@ -1549,20 +1574,40 @@ if (isset($_POST["login"])) {
     <div class="w3-container w3-padding-small"
        style="background:#fff;border-radius:10px;border:2px solid #ccc;margin:10px;">
 
-      <form id="loginForm">
-        <label>Account:</label>
-        <input class="w3-input w3-border" type="text" name="acc" id="accInput">
+      <?php if (empty($_SESSION["logged_in"])): ?>
 
-        <label>Password:</label>
-        <input class="w3-input w3-border" type="password" name="pwd" id="pwdInput">
+  <!-- Login Form（未登入才顯示） -->
+  <form id="loginForm" method="post">
+    <label>Account:</label>
+    <input class="w3-input w3-border" type="text" name="acc" id="accInput">
 
-        <button class="w3-button w3-pink w3-margin-top" type="submit" name="login">
-          Login
-        </button>
-      </form>
+    <label>Password:</label>
+    <input class="w3-input w3-border" type="password" name="pwd" id="pwdInput">
 
-      <p id="loginMsg" style="font-weight:bold;margin-top:10px;"></p>
+    <button class="w3-button w3-pink w3-margin-top" type="submit" name="login">
+      Login
+    </button>
+  </form>
+
+  <p id="loginMsg" style="font-weight:bold;margin-top:10px;"></p>
+
+<?php else: ?>
+
+  <!-- 已登入畫面 -->
+  <p style="font-weight:bold;color:green;">
+    Welcome, <?php echo htmlspecialchars($_SESSION["user"]); ?> 👋
+  </p>
+
+  <form method="post">
+    <button class="w3-button w3-gray w3-margin-top" type="submit" name="logout">
+      Logout
+    </button>
+  </form>
+
+<?php endif; ?>
+
     </div>
+
     <!-- Login Box end -->
 
     <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
@@ -1571,23 +1616,22 @@ if (isset($_POST["login"])) {
         Menu <i class="fa fa-caret-down"></i>
       </a>
       <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-        <a href="#maincourse" class="w3-bar-item w3-button w3-light-grey">
-          <i class="fa fa-caret-right w3-margin-right"></i>Main course
+        
+          
         </a>
-        <a href="#dessert" class="w3-bar-item w3-button">Dessert</a>
-        <a href="#beverage" class="w3-bar-item w3-button">Beverage</a>
-        <a href="#" class="w3-bar-item w3-button">Straight</a>
+        <a href="#maincourse" class="w3-bar-item w3-button">🍖Main course</a>
+        <a href="#dessert" class="w3-bar-item w3-button">🍰Dessert</a>
+        <a href="#beverage" class="w3-bar-item w3-button">🥤Beverage</a>
       </div>
     </div>
+    
     <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
-    <a href="#maincourse" class="w3-bar-item w3-button">🍖Main course</a>
-    <a href="#dessert" class="w3-bar-item w3-button">🍰Dessert</a>
-    <a href="#beverage" class="w3-bar-item w3-button">🥤Beverage</a>
+    
   </nav>
 
   <!-- Top bar (mobile) -->
   <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-    <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+    <div class="w3-bar-item w3-padding-24 w3-wide">Kirby Café</div>
     <a href="javascript:void(0)"
        class="w3-bar-item w3-button w3-padding-24 w3-right"
        onclick="w3_open()"><i class="fa fa-bars"></i></a>
@@ -2326,6 +2370,8 @@ if (isset($_POST["login"])) {
       document.getElementById("myOverlay").style.display = "none";
     }
 
+
+    
     // Greeting
     function enterGreeting() {
       var greet1 = document.getElementById("greeting1");
@@ -2352,6 +2398,7 @@ if (isset($_POST["login"])) {
     }
     function enter() {
       document.getElementById("greeting").style.display="none";
+      document.getElementById("greetingOverlay").style.display="none";  // 新增這行
     }
 
     // Progress bar
@@ -2657,15 +2704,15 @@ payBtn.addEventListener("click", async () => {
 
   // 檢查購物車是否為空
   if (cart.length === 0) {
-    alert("購物車是空的！");
+    alert("Your cart is empty！");
     return;
   }
 
   // 詢問客戶姓名
-  const customerName = prompt("請輸入您的姓名：");
+  const customerName = prompt("Please enter your full name：");
   
   if (!customerName || customerName.trim() === "") {
-    alert("請輸入有效的姓名！");
+    alert("Please enter a valid full name！");
     return;
   }
 
@@ -2685,7 +2732,7 @@ payBtn.addEventListener("click", async () => {
 
   // 顯示載入中
   payBtn.disabled = true;
-  payBtn.textContent = "處理中...";
+  payBtn.textContent = "Processing...";
 
   try {
     // 發送 AJAX 請求到後端
@@ -2704,12 +2751,12 @@ payBtn.addEventListener("click", async () => {
       
       setTimeout(() => {
         alert(
-          `付款成功！ 🎉\n\n` +
-          `訂單編號：${result.order_id}\n` +
-          `客戶姓名：${customerName}\n` +
-          `付款方式：${methodText}\n` +
-          `總金額：${total}\n\n` +
-          `感謝您的光臨！`
+          `Payment Successful! 🎉\n\n` +
+          `Order ID：${result.order_id}\n` +
+          `Customer：${customerName}\n` +
+          `Payment Method：${methodText}\n` +
+          `Total：${total}\n\n` +
+          `Thank you for visiting!！`
         );
         
         // 清空購物車
@@ -2725,14 +2772,14 @@ payBtn.addEventListener("click", async () => {
       }, 300);
       
     } else {
-      alert(`訂單提交失敗：${result.message}`);
+      alert(`Order submission failed:${result.message}`);
       payBtn.disabled = false;
       payBtn.textContent = "Confirm Payment";
     }
     
   } catch (error) {
     console.error('錯誤：', error);
-    alert(`發生錯誤：${error.message}\n請檢查網路連線或聯繫客服。`);
+    alert(`An error occurred：${error.message}\nPlease check your connection or contact support.`);
     payBtn.disabled = false;
     payBtn.textContent = "Confirm Payment";
   }
@@ -3105,27 +3152,26 @@ payBtn.addEventListener("click", async () => {
 
     // Login Box (JS)
     function initLoginBox() {
-      const loginForm = document.getElementById("loginForm");
-      const accInput = document.getElementById("accInput");
-      const pwdInput = document.getElementById("pwdInput");
-      const msg = document.getElementById("loginMsg");
+  const loginForm = document.getElementById("loginForm");
+  const accInput = document.getElementById("accInput");
+  const pwdInput = document.getElementById("pwdInput");
+  const msg = document.getElementById("loginMsg");
 
-      if (!loginForm) return;
+  if (!loginForm) return;
 
-      loginForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const acc = accInput.value.trim();
-        const pwd = pwdInput.value.trim();
+  loginForm.addEventListener("submit", function(e) {
+    const acc = accInput.value.trim();
+    const pwd = pwdInput.value.trim();
 
-        if (acc !== "" && pwd !== "") {
-          msg.style.color = "green";
-          msg.textContent = `Login successful! Welcome, ${acc} 😊`;
-        } else {
-          msg.style.color = "red";
-          msg.textContent = "Please enter both account and password ❌";
-        }
-      });
+    // ❗只有沒填才擋
+    if (acc === "" || pwd === "") {
+      e.preventDefault();
+      msg.style.color = "red";
+      msg.textContent = "Please enter both account and password ❌";
     }
+    // ✅ 有填 → 不擋 → 表單會送到 PHP
+  });
+}
 
     // Lightbox：照片放大邏輯
     function initLightbox() {
