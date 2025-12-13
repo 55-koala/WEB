@@ -388,7 +388,54 @@ if (isset($_POST["login"])) {
       position: sticky;
       bottom: 0;
     }
+    /* 手機版購物車控制按鈕調整 */
+@media (max-width: 480px) {
+  #cartList div.cart-item {
+    flex-wrap: wrap;
+    padding: 10px 8px;
+  }
 
+  #cartList .cart-item-info {
+    flex: 1 1 100%;
+    margin-left: 0;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  #cartList .cart-item-controls {
+    flex: 1 1 100%;
+    justify-content: space-between;
+    margin-left: 0;
+    margin-top: 8px;
+    gap: 4px;
+  }
+
+  #cartList .qty-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+  }
+
+  #cartList .qty-display {
+    min-width: 20px;
+    font-size: 14px;
+  }
+
+  #cartList .remove-btn {
+    margin-left: auto;
+    font-size: 13px;
+  }
+
+  #cartList .edit-note-btn {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+
+  #cartList img {
+    width: 50px;
+    height: 50px;
+  }
+}
     .checkout-buttons button {
       flex: 1;
       padding: 12px;
@@ -1155,6 +1202,7 @@ if (isset($_POST["login"])) {
   .checkout-content {
     padding: 14px;
     max-height: calc(60vh - 125px);
+    padding-bottom: 200px;
   }
   
   #checkoutItemsList {
@@ -1936,6 +1984,47 @@ if (isset($_POST["login"])) {
         font-size: 20px;
       }
     }
+    /* 搜尋欄 RWD */
+@media (max-width: 480px) {
+  header .w3-right {
+    position: relative;
+  }
+
+  /* 搜尋包裝器 */
+  div[style*="position: absolute"][style*="right: 60px"] {
+    position: fixed !important;
+    top: 70px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 90% !important;
+    max-width: 340px !important;
+    flex-wrap: wrap !important;
+    padding: 10px !important;
+  }
+
+  #keywordInput {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 8px !important;
+  }
+
+  #searchBtn {
+  flex: 0 0 auto !important; 
+  width: auto !important;
+  padding: 5px 30px !important; 
+}
+
+
+  #closeSearch {
+    flex-shrink: 0 !important;
+  }
+
+  #searchResultMsg {
+    text-align: center !important;
+    margin: 8px 0 0 0 !important;
+  }
+}
 
     /* Hero Title */
     #heroTitle {
