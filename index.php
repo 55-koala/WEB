@@ -151,7 +151,7 @@ if (isset($_POST["login"])) {
 
   .w3-row-padding > .w3-col {
     float: none !important;
-    width: 33.333% !important;
+    width: 25% !important;
     box-sizing: border-box;
     padding: 12px 8px !important;
     max-width: 33.333% !important;
