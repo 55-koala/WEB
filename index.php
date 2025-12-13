@@ -1,35 +1,29 @@
 <?php
-session_start();
+session_start(); 
+// ================== MySQL 連線 ==================
+$servername = "localhost";
+$db_username = "root";
+$db_password = "";
+$dbname = "kirby cafe";   // ← 跟 phpMyAdmin 的資料庫名稱一模一樣
 
-/* ==== 連線到 Railway MySQL（PDO）==== */
-$servername = "shinkansen.proxy.rlwy.net";
-$username   = "root";
-$password   = "你的Railway密碼";
-$dbname     = "railway";
-$port       = 19411;
+$conn = new mysqli($servername, $db_username, $db_password, $dbname);
 
-$dsn = "mysql:host=$servername;port=$port;dbname=$dbname;charset=utf8mb4";
-
-try {
-    $pdo = new PDO($dsn, $username, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+if ($conn->connect_error) {
+    die("Database connection failed");
 }
 
-$login_message = "";
-
-/* ==== 登出 ==== */
+// ------------------ Logout 處理（新增） ------------------
 if (isset($_POST["logout"])) {
+    session_unset();
     session_destroy();
-    header("Location: index.php");
+    header("Location: " . $_SERVER["PHP_SELF"]);
     exit;
 }
 
-/* ==== 登入處理（PDO）==== */
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
+// ------------------ Login 處理（資料庫驗證） ------------------
+$login_message = "";
+
+if (isset($_POST["login"])) {
 
     $acc = trim($_POST["acc"] ?? "");
     $pwd = trim($_POST["pwd"] ?? "");
@@ -38,23 +32,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
         $login_message = "Please enter both account and password ❌";
     } else {
 
-        // ⭐ 使用 PDO 版本的 prepared statement
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-        $stmt->execute([$acc, $pwd]);
+        $stmt = $conn->prepare(
+            "SELECT password_hash FROM users WHERE username = ?"
+        );
+        $stmt->bind_param("s", $acc);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $user = $stmt->fetch();
+        if ($result->num_rows === 1) {
 
-        if ($user) {
-            $_SESSION["username"] = $acc;
-            $login_message = "Login successful! Welcome, $acc 😊";
+            $row = $result->fetch_assoc();
+
+            // 明碼密碼比對（依你目前需求）
+            if ($pwd === $row["password_hash"]) {
+
+                $_SESSION["logged_in"] = true;
+                $_SESSION["user"] = $acc;
+
+                $login_message = "Login successful! Welcome, $acc 😊";
+
+            } else {
+                $login_message = "Wrong password ❌";
+            }
+
         } else {
-            $login_message = "Incorrect account or password ❌";
+            $login_message = "User not found ❌";
         }
+
+        $stmt->close();
     }
 }
+
+
+
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- 你原本的外部檔 -->
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="newstyle.css">
+  <script src="myscript.js" defer></script>
 
   <style>
     /* Lightbox 背景 */
@@ -348,147 +360,972 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
       border-radius: 10px;
     }
 
-    #checkoutModal {
-      border:3px solid #FFB347;
-      background:#FFF7FB;
-      border-radius:20px;
-      padding:0;
-      display:none;
-      position:fixed;
-      top:50%;
-      left:50%;
-      transform:translate(-50%, -50%);
-      width:90%;
-      max-width:550px;
-      max-height:85vh;
-      overflow-y:auto;
-      z-index:1100;
-      box-shadow: 0 10px 40px rgba(255, 179, 71, 0.3);
-    }
+    /* ==================== Checkout Modal - 調整高度不遮住進度條 ==================== */
 
-    .checkout-header {
-      background: linear-gradient(135deg, #FF9AA2, #FFB347);
-      padding: 18px 20px;
-      border-radius: 17px 17px 0 0;
-      color: white;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-    .checkout-header h3 {
-      margin: 0;
-      font-size: 24px;
-    }
-    .checkout-content {
-      padding: 20px;
-    }
-    .checkout-section {
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px dashed #FFD4EA;
-    }
-    .checkout-section:last-child {
-      border-bottom: none;
-    }
-    .checkout-section h4 {
-      color: #FF4500;
-      margin: 0 0 12px 0;
-      font-size: 16px;
-    }
-    #checkoutItemsList {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    .checkout-item {
-      background: #FFE4B5;
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-      border: 2px solid #FFD4A3;
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .checkout-item-main {
-      flex: 1;
-    }
-    .checkout-item-name {
-      font-weight: bold;
-      color: #8B4513;
-      font-size: 15px;
-      margin-bottom: 4px;
-    }
-    .checkout-item-details {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 2px;
-    }
-    .item-options, .item-note {
-      font-size: 12px;
-      color: #888;
-      margin-top: 2px;
-    }
-    .checkout-item-price {
-      text-align: right;
-      font-weight: bold;
-      color: #FF4500;
-      font-size: 15px;
-      white-space: nowrap;
-    }
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 15px;
-      color: #333;
-    }
-    .total-row {
-      border-top: 2px solid #FFB347;
-      margin-top: 8px;
-      padding-top: 12px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #FF4500;
-    }
-    .payment-methods {
-      display: flex;
-      gap: 12px;
-    }
-    .payment-option {
-      flex: 1;
-      cursor: pointer;
-    }
-    .payment-option input[type="radio"] {
-      display: none;
-    }
-    .payment-card {
-      border: 3px solid #FFD4A3;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-      background: white;
-      transition: all 0.3s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .payment-card i {
-      font-size: 28px;
-      color: #FFB347;
-    }
-    .payment-card span {
-      font-size: 14px;
-      font-weight: bold;
-      color: #8B4513;
-    }
-    .payment-option input[type="radio"]:checked + .payment-card {
-      border-color: #FF9AA2;
-      background: linear-gradient(135deg, #FFF0F5, #FFE4E1);
-      box-shadow: 0 4px 12px rgba(255, 154, 162, 0.4);
-      transform: scale(1.05);
-    }
+#checkoutModal {
+  border: 3px solid #FFB347;
+  background: #FFF7FB;
+  border-radius: 24px;
+  padding: 0;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 650px;
+  max-height: 75vh; /* 從 90vh 改為 75vh */
+  overflow: hidden;
+  z-index: 1100;
+  box-shadow: 0 20px 60px rgba(255, 179, 71, 0.5);
+  animation: checkoutModalFadeIn 0.35s ease-out;
+}
+
+@keyframes checkoutModalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Checkout Header */
+.checkout-header {
+  background: linear-gradient(135deg, #FF9AA2, #FFB347);
+  padding: 18px 24px; /* 從 20px 改為 18px */
+  border-radius: 21px 21px 0 0;
+  color: white;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(255, 154, 162, 0.3);
+}
+
+.checkout-header h3 {
+  margin: 0;
+  font-size: 26px; /* 從 28px 改為 26px */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Checkout Content */
+.checkout-content {
+  padding: 20px; /* 從 24px 改為 20px */
+  max-height: calc(75vh - 160px); /* 調整計算高度 */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 自訂滾動條 */
+.checkout-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.checkout-content::-webkit-scrollbar-track {
+  background: #FFE4E1;
+  border-radius: 10px;
+}
+
+.checkout-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF9AA2, #FFB347);
+  border-radius: 10px;
+}
+
+.checkout-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FF7B84, #FFA500);
+}
+
+/* Checkout Section */
+.checkout-section {
+  margin-bottom: 20px; /* 從 24px 改為 20px */
+  padding-bottom: 16px; /* 從 20px 改為 16px */
+  border-bottom: 2px dashed #FFD4EA;
+  animation: slideIn 0.4s ease-out backwards;
+}
+
+.checkout-section:nth-child(1) { animation-delay: 0.1s; }
+.checkout-section:nth-child(2) { animation-delay: 0.2s; }
+.checkout-section:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkout-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.checkout-section h4 {
+  color: #FF4500;
+  margin: 0 0 14px 0; /* 從 16px 改為 14px */
+  font-size: 17px; /* 從 18px 改為 17px */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+/* Checkout Items List */
+#checkoutItemsList {
+  max-height: 220px; /* 從 280px 改為 220px */
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#checkoutItemsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+#checkoutItemsList::-webkit-scrollbar-track {
+  background: #FFF0F5;
+  border-radius: 10px;
+}
+
+#checkoutItemsList::-webkit-scrollbar-thumb {
+  background: #FFB347;
+  border-radius: 10px;
+}
+
+/* Checkout Item */
+.checkout-item {
+  background: linear-gradient(135deg, #FFFAF0, #FFE4B5);
+  padding: 12px 14px; /* 從 14px 16px 改為 12px 14px */
+  border-radius: 14px;
+  margin-bottom: 10px; /* 從 12px 改為 10px */
+  border: 2px solid #FFD4A3;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 3px 8px rgba(255, 212, 163, 0.3);
+  transition: all 0.3s ease;
+}
+
+.checkout-item:hover {
+  box-shadow: 0 5px 12px rgba(255, 212, 163, 0.5);
+  transform: translateX(2px);
+}
+
+.checkout-item:last-child {
+  margin-bottom: 0;
+}
+
+.checkout-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.checkout-item-name {
+  font-weight: bold;
+  color: #8B4513;
+  font-size: 15px; /* 從 16px 改為 15px */
+  margin-bottom: 5px; /* 從 6px 改為 5px */
+  line-height: 1.3;
+}
+
+.checkout-item-details {
+  font-size: 13px; /* 從 14px 改為 13px */
+  color: #666;
+  margin-bottom: 3px; /* 從 4px 改為 3px */
+  line-height: 1.4;
+}
+
+.item-options {
+  font-size: 12px; /* 從 13px 改為 12px */
+  color: #888;
+  margin-top: 3px; /* 從 4px 改為 3px */
+  padding: 3px 6px; /* 從 4px 8px 改為 3px 6px */
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.item-note {
+  font-size: 12px; /* 從 13px 改為 12px */
+  color: #888;
+  margin-top: 3px; /* 從 4px 改為 3px */
+  padding: 3px 6px; /* 從 4px 8px 改為 3px 6px */
+  background: rgba(255, 228, 181, 0.4);
+  border-radius: 6px;
+  font-style: italic;
+}
+
+.checkout-item-price {
+  text-align: right;
+  font-weight: bold;
+  color: #FF4500;
+  font-size: 16px; /* 從 17px 改為 16px */
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* Price Rows */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0; /* 從 10px 改為 8px */
+  font-size: 15px; /* 從 16px 改為 15px */
+  color: #333;
+}
+
+.total-row {
+  border-top: 3px solid #FFB347;
+  margin-top: 10px; /* 從 12px 改為 10px */
+  padding-top: 14px; /* 從 16px 改為 14px */
+  font-size: 20px; /* 從 22px 改為 20px */
+  font-weight: bold;
+  color: #FF4500;
+  background: linear-gradient(135deg, #FFF9F0, #FFE4E1);
+  padding: 14px; /* 從 16px 改為 14px */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
+}
+
+/* Payment Methods */
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px; /* 從 14px 改為 12px */
+}
+
+.payment-option {
+  cursor: pointer;
+}
+
+.payment-option input[type="radio"] {
+  display: none;
+}
+
+.payment-card {
+  border: 3px solid #FFD4A3;
+  border-radius: 16px;
+  padding: 16px; /* 從 20px 改為 16px */
+  text-align: center;
+  background: white;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* 從 10px 改為 8px */
+  height: 100%;
+  box-shadow: 0 3px 10px rgba(255, 212, 163, 0.2);
+}
+
+.payment-card:hover {
+  border-color: #FFB347;
+  box-shadow: 0 5px 15px rgba(255, 179, 71, 0.3);
+  transform: translateY(-2px);
+}
+
+.payment-card i {
+  font-size: 30px; /* 從 32px 改為 30px */
+  color: #FFB347;
+  transition: all 0.3s ease;
+}
+
+.payment-card span {
+  font-size: 14px; /* 從 15px 改為 14px */
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.payment-option input[type="radio"]:checked + .payment-card {
+  border-color: #FF9AA2;
+  background: linear-gradient(135deg, #FFF0F5, #FFE4E1);
+  box-shadow: 0 6px 20px rgba(255, 154, 162, 0.5);
+  transform: scale(1.05);
+}
+
+.payment-option input[type="radio"]:checked + .payment-card i {
+  color: #FF9AA2;
+  transform: scale(1.15);
+}
+
+/* ==================== Checkout Modal - 完全不遮住進度條 ==================== */
+
+#checkoutModal {
+  border: 3px solid #FFB347;
+  background: #FFF7FB;
+  border-radius: 24px;
+  padding: 0;
+  display: none;
+  position: fixed;
+  top: 45%; /* 從 50% 改為 45%，往上移 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 650px;
+  max-height: 65vh; /* 從 75vh 改為 65vh */
+  overflow: hidden;
+  z-index: 1100;
+  box-shadow: 0 20px 60px rgba(255, 179, 71, 0.5);
+  animation: checkoutModalFadeIn 0.35s ease-out;
+}
+
+@keyframes checkoutModalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Checkout Header */
+.checkout-header {
+  background: linear-gradient(135deg, #FF9AA2, #FFB347);
+  padding: 16px 20px; /* 從 18px 改為 16px */
+  border-radius: 21px 21px 0 0;
+  color: white;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(255, 154, 162, 0.3);
+}
+
+.checkout-header h3 {
+  margin: 0;
+  font-size: 24px; /* 從 26px 改為 24px */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Checkout Content */
+.checkout-content {
+  padding: 18px; /* 從 20px 改為 18px */
+  max-height: calc(65vh - 145px); /* 調整計算高度 */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 自訂滾動條 */
+.checkout-content::-webkit-scrollbar {
+  width: 6px; /* 從 8px 改為 6px */
+}
+
+.checkout-content::-webkit-scrollbar-track {
+  background: #FFE4E1;
+  border-radius: 10px;
+}
+
+.checkout-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF9AA2, #FFB347);
+  border-radius: 10px;
+}
+
+.checkout-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FF7B84, #FFA500);
+}
+
+/* Checkout Section */
+.checkout-section {
+  margin-bottom: 16px; /* 從 20px 改為 16px */
+  padding-bottom: 14px; /* 從 16px 改為 14px */
+  border-bottom: 2px dashed #FFD4EA;
+  animation: slideIn 0.4s ease-out backwards;
+  overflow: visible;
+}
+
+.checkout-section:nth-child(1) { animation-delay: 0.1s; }
+.checkout-section:nth-child(2) { animation-delay: 0.2s; }
+.checkout-section:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.checkout-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.checkout-section h4 {
+  color: #FF4500;
+  margin: 0 0 12px 0; /* 從 14px 改為 12px */
+  font-size: 16px; /* 從 17px 改為 16px */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+/* Payment Section 特別處理 */
+.checkout-section:has(.payment-methods) {
+  padding-bottom: 16px;
+  min-height: 140px; /* 從 150px 改為 140px */
+}
+
+/* Checkout Items List */
+#checkoutItemsList {
+  max-height: 180px; /* 從 220px 改為 180px */
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#checkoutItemsList::-webkit-scrollbar {
+  width: 5px; /* 從 6px 改為 5px */
+}
+
+#checkoutItemsList::-webkit-scrollbar-track {
+  background: #FFF0F5;
+  border-radius: 10px;
+}
+
+#checkoutItemsList::-webkit-scrollbar-thumb {
+  background: #FFB347;
+  border-radius: 10px;
+}
+
+/* Checkout Item */
+.checkout-item {
+  background: linear-gradient(135deg, #FFFAF0, #FFE4B5);
+  padding: 10px 12px; /* 從 12px 14px 改為 10px 12px */
+  border-radius: 12px; /* 從 14px 改為 12px */
+  margin-bottom: 8px; /* 從 10px 改為 8px */
+  border: 2px solid #FFD4A3;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 3px 8px rgba(255, 212, 163, 0.3);
+  transition: all 0.3s ease;
+}
+
+.checkout-item:hover {
+  box-shadow: 0 5px 12px rgba(255, 212, 163, 0.5);
+  transform: translateX(2px);
+}
+
+.checkout-item:last-child {
+  margin-bottom: 0;
+}
+
+.checkout-item-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.checkout-item-name {
+  font-weight: bold;
+  color: #8B4513;
+  font-size: 14px; /* 從 15px 改為 14px */
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.checkout-item-details {
+  font-size: 12px; /* 從 13px 改為 12px */
+  color: #666;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+.item-options {
+  font-size: 11px; /* 從 12px 改為 11px */
+  color: #888;
+  margin-top: 2px;
+  padding: 2px 5px; /* 從 3px 6px 改為 2px 5px */
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.item-note {
+  font-size: 11px; /* 從 12px 改為 11px */
+  color: #888;
+  margin-top: 2px;
+  padding: 2px 5px; /* 從 3px 6px 改為 2px 5px */
+  background: rgba(255, 228, 181, 0.4);
+  border-radius: 5px;
+  font-style: italic;
+}
+
+.checkout-item-price {
+  text-align: right;
+  font-weight: bold;
+  color: #FF4500;
+  font-size: 15px; /* 從 16px 改為 15px */
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* Price Rows */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0; /* 從 8px 改為 7px */
+  font-size: 14px; /* 從 15px 改為 14px */
+  color: #333;
+}
+
+.total-row {
+  border-top: 3px solid #FFB347;
+  margin-top: 8px; /* 從 10px 改為 8px */
+  padding-top: 12px; /* 從 14px 改為 12px */
+  font-size: 19px; /* 從 20px 改為 19px */
+  font-weight: bold;
+  color: #FF4500;
+  background: linear-gradient(135deg, #FFF9F0, #FFE4E1);
+  padding: 12px; /* 從 14px 改為 12px */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
+}
+
+/* Payment Methods */
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px; /* 從 12px 改為 10px */
+  margin-top: 6px;
+}
+
+.payment-option {
+  cursor: pointer;
+  width: 100%;
+}
+
+.payment-option input[type="radio"] {
+  display: none;
+}
+
+.payment-card {
+  border: 3px solid #FFD4A3;
+  border-radius: 14px; /* 從 16px 改為 14px */
+  padding: 14px; /* 從 16px 改為 14px */
+  text-align: center;
+  background: white;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px; /* 從 8px 改為 7px */
+  min-height: 90px; /* 從 100px 改為 90px */
+  height: 100%;
+  box-shadow: 0 3px 10px rgba(255, 212, 163, 0.2);
+}
+
+.payment-card:hover {
+  border-color: #FFB347;
+  box-shadow: 0 5px 15px rgba(255, 179, 71, 0.3);
+  transform: translateY(-2px);
+}
+
+.payment-card i {
+  font-size: 28px; /* 從 30px 改為 28px */
+  color: #FFB347;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.payment-card span {
+  font-size: 13px; /* 從 14px 改為 13px */
+  font-weight: bold;
+  color: #8B4513;
+  white-space: nowrap;
+}
+
+.payment-option input[type="radio"]:checked + .payment-card {
+  border-color: #FF9AA2;
+  background: linear-gradient(135deg, #FFF0F5, #FFE4E1);
+  box-shadow: 0 6px 20px rgba(255, 154, 162, 0.5);
+  transform: scale(1.05);
+}
+
+.payment-option input[type="radio"]:checked + .payment-card i {
+  color: #FF9AA2;
+  transform: scale(1.15);
+}
+
+/* Checkout Buttons */
+/* ==================== 調整間距避免按鈕遮住內容 ==================== */
+
+/* Total Row - 增加下方間距 */
+.total-row {
+  border-top: 3px solid #FFB347;
+  margin-top: 8px;
+  margin-bottom: 20px; /* 從無 → 20px */
+  padding-top: 12px;
+  font-size: 19px;
+  font-weight: bold;
+  color: #FF4500;
+  background: linear-gradient(135deg, #FFF9F0, #FFE4E1);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
+}
+
+/* Payment Details Section 增加底部空間 */
+.checkout-section:nth-child(2) {
+  padding-bottom: 24px; /* 增加底部空間 */
+}
+
+/* Checkout Buttons */
+.checkout-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-top: 12px; /* 增加頂部間距 */
+  background: linear-gradient(135deg, #FFF0F5, #FFE4E1);
+  border-radius: 0 0 21px 21px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -4px 12px rgba(255, 154, 162, 0.2);
+}
+
+.checkout-buttons button {
+  flex: 1;
+  padding: 11px 16px;
+  font-size: 14px;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.checkout-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.checkout-buttons button:active {
+  transform: translateY(0);
+}
+
+/* ==================== 響應式斷點（完整更新） ==================== */
+
+/* 大螢幕優化 (>1200px) */
+@media (min-width: 1200px) {
+  #checkoutModal {
+    max-width: 700px;
+    max-height: 68vh;
+    top: 45%;
+  }
+  
+  .checkout-header h3 {
+    font-size: 26px;
+  }
+  
+  .checkout-content {
+    padding: 20px;
+    max-height: calc(68vh - 145px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 200px;
+  }
+}
+
+/* 平板橫向 (992px - 1199px) */
+@media (max-width: 1199px) {
+  #checkoutModal {
+    width: 88%;
+    max-width: 620px;
+    max-height: 65vh;
+    top: 45%;
+  }
+}
+
+/* 平板直向 (768px - 991px) */
+@media (max-width: 991px) {
+  #checkoutModal {
+    width: 90%;
+    max-width: 560px;
+    max-height: 65vh;
+    top: 44%;
+  }
+  
+  .checkout-content {
+    max-height: calc(65vh - 135px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 160px;
+  }
+}
+
+/* 大手機 / 小平板 (576px - 767px) */
+@media (max-width: 767px) {
+  #checkoutModal {
+    width: 92%;
+    max-width: 500px;
+    border-radius: 20px;
+    max-height: 62vh;
+    top: 43%;
+  }
+  
+  .checkout-content {
+    padding: 16px;
+    max-height: calc(62vh - 130px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 150px;
+  }
+  
+  .payment-card {
+    min-height: 80px;
+    padding: 12px;
+  }
+}
+
+/* 手機 (小於 576px) */
+@media (max-width: 575px) {
+  #checkoutModal {
+    width: 94%;
+    max-width: none;
+    border-radius: 18px;
+    max-height: 60vh;
+    top: 42%;
+  }
+  
+  .checkout-header {
+    padding: 12px 14px;
+  }
+  
+  .checkout-header h3 {
+    font-size: 20px;
+  }
+  
+  .checkout-content {
+    padding: 14px;
+    max-height: calc(60vh - 125px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 140px;
+  }
+  
+  .checkout-section {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+  
+  .checkout-item {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  /* 手機版：付款方式改為單欄 */
+  .payment-methods {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .payment-card {
+    padding: 12px;
+    flex-direction: row;
+    min-height: 55px;
+    text-align: left;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  
+  .payment-card i {
+    font-size: 26px;
+  }
+  
+  .payment-card span {
+    font-size: 13px;
+    flex: 1;
+  }
+  
+  /* Checkout Buttons - 左右並排 */
+.checkout-buttons {
+  display: flex;
+  flex-direction: row; /* 確保是橫向排列 */
+  gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #FFF0F5, #FFE4E1);
+  border-radius: 0 0 21px 21px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -4px 12px rgba(255, 154, 162, 0.2);
+   margin-top: 16px; /* ✅ 新增：增加上方間距 */
+}
+
+.checkout-buttons button {
+  flex: 1; /* 兩個按鈕平均分配寬度 */
+  padding: 11px 16px;
+  font-size: 14px;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  white-space: nowrap; /* 防止文字換行 */
+}
+
+.checkout-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.checkout-buttons button:active {
+  transform: translateY(0);
+}
+
+/* ==================== 響應式調整（保持左右並排） ==================== */
+
+/* 大螢幕優化 (>1200px) */
+@media (min-width: 1200px) {
+  .checkout-buttons {
+    gap: 14px;
+    padding: 16px 20px;
+  }
+  
+  .checkout-buttons button {
+    padding: 13px 20px;
+    font-size: 15px;
+  }
+}
+
+/* 平板橫向 (992px - 1199px) */
+@media (max-width: 1199px) {
+  .checkout-buttons {
+    gap: 12px;
+    padding: 14px 18px;
+  }
+}
+
+/* 平板直向 (768px - 991px) */
+@media (max-width: 991px) {
+  .checkout-buttons {
+    gap: 12px;
+    padding: 14px 18px;
+  }
+  
+  .checkout-buttons button {
+    padding: 11px 16px;
+    font-size: 14px;
+  }
+}
+
+/* 大手機 / 小平板 (576px - 767px) */
+@media (max-width: 767px) {
+  .checkout-buttons {
+    gap: 10px;
+    padding: 12px 16px;
+  }
+  
+  .checkout-buttons button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+/* 手機 (小於 576px) - 依然保持左右並排 */
+@media (max-width: 575px) {
+  .checkout-buttons {
+    flex-direction: row; /* 強制橫向 */
+    gap: 10px;
+    padding: 12px 14px;
+  }
+  
+  .checkout-buttons button {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* 超小手機 (小於 400px) - 依然保持左右並排 */
+@media (max-width: 399px) {
+  .checkout-buttons {
+    flex-direction: row; /* 強制橫向 */
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  
+  .checkout-buttons button {
+    flex: 1;
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}
+
+/* 超小手機且按鈕文字過長時的處理 */
+@media (max-width: 360px) {
+  .checkout-buttons button {
+    font-size: 11px;
+    padding: 8px 8px;
+  }
+}
+
+/* 橫屏手機優化 - 保持左右並排 */
+@media (max-height: 600px) and (orientation: landscape) {
+  .checkout-buttons {
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+  
+  .checkout-buttons button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+  
+  .checkout-content {
+    max-height: calc(85vh - 115px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 130px;
+  }
+  
+  .checkout-header {
+    padding: 10px 16px;
+  }
+  
+  .checkout-buttons {
+    padding: 10px 16px;
+  }
+}
+
+/* 極小高度優化 */
+@media (max-height: 500px) {
+  #checkoutModal {
+    max-height: 90vh;
+  }
+  
+  .checkout-content {
+    max-height: calc(90vh - 110px);
+  }
+  
+  #checkoutItemsList {
+    max-height: 100px;
+  }
+}
 
     /* Cart */
     #cartList div.cart-item {
@@ -783,44 +1620,215 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
     }
 
     /* Progress bar */
-    .progress-container {
-      position:fixed;
-      bottom:0;
-      left:0;
-      right:0;
-      background:white;
-      box-shadow:0 -4px 10px rgba(0,0,0,0.1);
-      z-index:500;
-    }
-    .progress-bar {
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
-      max-width:800px;
-      margin:0 auto;
-      position:relative;
-      padding:8px 12px;
-    }
-    .progress-step {
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      flex:1;
-      position:relative;
-      z-index:2;
-    }
-    .rocket-icon {
-      font-size:40px;
-      color:#ccc;
-      transition:all 0.5s;
-    }
-    .rocket-icon.active {
-      color:#FF6B81;
-      transform:scale(1.3);
-    }
-    .rocket-icon.completed {
-      color:#4CAF50;
-    }
+   .progress-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 900px;
+  background: white;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+  z-index: 500;
+  border-radius: 12px 12px 0 0;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  padding: 12px 16px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.rocket-icon {
+  font-size: 40px;
+  color: #ccc;
+  transition: all 0.5s;
+}
+
+.rocket-icon.active {
+  color: #FF6B81;
+  transform: scale(1.3);
+}
+
+.rocket-icon.completed {
+  color: #4CAF50;
+}
+
+.step-label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin-top: 4px;
+}
+
+.step-label.active {
+  color: #FF6B81;
+}
+
+.step-label.completed {
+  color: #4CAF50;
+}
+
+.progress-line {
+  position: absolute;
+  top: 26px;
+  left: 10%;
+  right: 10%;
+  height: 4px;
+  background: #ddd;
+  z-index: 1;
+}
+
+.progress-line-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B81, #4CAF50);
+  width: 0%;
+  transition: width 0.5s;
+}
+
+/* 平板尺寸 (768px - 1024px) */
+@media (max-width: 1024px) {
+  .progress-container {
+    width: 90%;
+    max-width: 800px;
+  }
+  
+  .progress-bar {
+    padding: 10px 12px;
+  }
+  
+  .rocket-icon {
+    font-size: 36px;
+  }
+  
+  .rocket-icon.active {
+    transform: scale(1.2);
+  }
+  
+  .step-label {
+    font-size: 13px;
+  }
+}
+
+/* 小平板/大手機 (600px - 768px) */
+@media (max-width: 768px) {
+  .progress-container {
+    width: 92%;
+    max-width: 600px;
+  }
+  
+  .progress-bar {
+    padding: 10px 8px;
+  }
+  
+  .rocket-icon {
+    font-size: 32px;
+  }
+  
+  .rocket-icon.active {
+    transform: scale(1.15);
+  }
+  
+  .step-label {
+    font-size: 12px;
+  }
+  
+  .progress-line {
+    top: 22px;
+  }
+}
+
+/* 手機尺寸 (小於 600px) */
+@media (max-width: 600px) {
+  .progress-container {
+    width: 96%;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .progress-bar {
+    padding: 8px 4px;
+  }
+  
+  .rocket-icon {
+    font-size: 28px;
+  }
+  
+  .rocket-icon.active {
+    transform: scale(1.1);
+  }
+  
+  .step-label {
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  
+  .progress-line {
+    top: 20px;
+    left: 15%;
+    right: 15%;
+    height: 3px;
+  }
+}
+
+/* 超小手機 (小於 400px) */
+@media (max-width: 400px) {
+  .progress-container {
+    width: 98%;
+  }
+  
+  .progress-bar {
+    padding: 6px 2px;
+  }
+  
+  .rocket-icon {
+    font-size: 24px;
+  }
+  
+  .rocket-icon.active {
+    transform: scale(1.05);
+  }
+  
+  .step-label {
+    font-size: 10px;
+  }
+  
+  .progress-line {
+    top: 18px;
+    height: 2px;
+  }
+}
+
+/* 超寬螢幕 (大於 1440px) */
+@media (min-width: 1440px) {
+  .progress-container {
+    max-width: 1000px;
+  }
+  
+  .progress-bar {
+    padding: 14px 20px;
+  }
+  
+  .rocket-icon {
+    font-size: 44px;
+  }
+  
+  .step-label {
+    font-size: 15px;
+  }
+}
     .step-label {
       font-size:14px;
       font-weight:bold;
@@ -851,7 +1859,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
     /* Back to Top */
     #backToTop {
       position: fixed;
-      bottom: 80px;
+      bottom: 60px;
       right: 20px;
       z-index: 99;
       background: linear-gradient(135deg, #FF9AA2, #FFB347);
@@ -869,6 +1877,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
       display: flex;
       align-items: center;
       justify-content: center;
+
     }
     #backToTop.show {
       opacity: 1;
@@ -1460,6 +2469,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
         font-size: 13px;
       }
     }
+
+
+    #greetingOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 8999;
+  display: block;
+}
+#send-bt{
+  padding:10px ;
+  width:100%;
+  border-radius: 5px;
+}
+
   </style>
 </head>
 
@@ -1568,6 +2595,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
   <!-- 🎮 END GAME INTRO -->
 
   <!-- Greeting -->
+   <!-- Greeting 遮罩層 -->
+<div id="greetingOverlay"></div>
   <div id="greeting">
     <h1 id="greeting1">Good Morning!</h1>
     <h2 id="welcome">Welcome to our restaurant!</h2>
@@ -1587,64 +2616,63 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
     <div class="w3-container w3-padding-small"
        style="background:#fff;border-radius:10px;border:2px solid #ccc;margin:10px;">
 
-      
-      <form id="loginForm" method="POST">
+      <?php if (empty($_SESSION["logged_in"])): ?>
 
-        <label>Account:</label>
-        <input class="w3-input w3-border" type="text" name="acc" id="accInput">
+  <!-- Login Form（未登入才顯示） -->
+  <form id="loginForm" method="post">
+    <label>Account:</label>
+    <input class="w3-input w3-border" type="text" name="acc" id="accInput">
 
-        <label>Password:</label>
-        <input class="w3-input w3-border" type="password" name="pwd" id="pwdInput">
+    <label>Password:</label>
+    <input class="w3-input w3-border" type="password" name="pwd" id="pwdInput">
 
-        <button class="w3-button w3-pink w3-margin-top" type="submit" name="login">
-          Login
-        </button>
-      </form>
+    <button class="w3-button w3-pink w3-margin-top" type="submit" name="login">
+      Login
+    </button>
+  </form>
 
-      
-      <p id="loginMsg" style="font-weight:bold;margin-top:10px;">
-  <?php echo $login_message; ?>
+  <p id="loginMsg" style="font-weight:bold;margin-top:10px;color:red;">
+  <?php echo $login_message ?? ""; ?>
 </p>
 
-    </div>
-    <?php if(isset($_SESSION["username"])): ?>
-  <div class="w3-container w3-pale-green w3-padding" 
-       style="border-radius:10px;border:2px solid #8BC34A;margin:10px;">
-    
-    <h4>Welcome, <?php echo $_SESSION["username"]; ?> 👋</h4>
-    
-    <form method="POST">
-      <button class="w3-button w3-red" name="logout">Logout</button>
-    </form>
 
-  </div>
+<?php else: ?>
+
+  <!-- 已登入畫面 -->
+  <p style="font-weight:bold;color:green;">
+    Welcome, <?php echo htmlspecialchars($_SESSION["user"]); ?> 👋
+  </p>
+
+  <form method="post">
+    <button class="w3-button w3-gray w3-margin-top" type="submit" name="logout">
+      Logout
+    </button>
+  </form>
+
 <?php endif; ?>
+
+    </div>
 
     <!-- Login Box end -->
 
-    <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-      <a onclick="myAccFunc()" href="javascript:void(0)"
-         class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-        Menu <i class="fa fa-caret-down"></i>
-      </a>
-      <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-        <a href="#maincourse" class="w3-bar-item w3-button w3-light-grey">
-          <i class="fa fa-caret-right w3-margin-right"></i>Main course
-        </a>
-        <a href="#dessert" class="w3-bar-item w3-button">Dessert</a>
-        <a href="#beverage" class="w3-bar-item w3-button">Beverage</a>
-        <a href="#" class="w3-bar-item w3-button">Straight</a>
-      </div>
-    </div>
-    <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a>
+   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+  <a onclick="myAccFunc()" href="javascript:void(0)"
+     class="w3-button w3-block w3-white w3-left-align" id="myBtn">
+    Menu <i class="fa fa-caret-down"></i>
+  </a>
+  <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
     <a href="#maincourse" class="w3-bar-item w3-button">🍖Main course</a>
     <a href="#dessert" class="w3-bar-item w3-button">🍰Dessert</a>
     <a href="#beverage" class="w3-bar-item w3-button">🥤Beverage</a>
+  </div>
+  
+  <a href="#footer" class="w3-button w3-block w3-white w3-left-align" style="margin-top:16px;">Contact</a>
+</div>
   </nav>
 
   <!-- Top bar (mobile) -->
   <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-    <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+    <div class="w3-bar-item w3-padding-24 w3-wide">Kirby Café</div>
     <a href="javascript:void(0)"
        class="w3-bar-item w3-button w3-padding-24 w3-right"
        onclick="w3_open()"><i class="fa fa-bars"></i></a>
@@ -2210,7 +3238,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
             <p><input class="w3-input w3-border" type="text" placeholder="Email" name="Field2"></p>
             <p><input class="w3-input w3-border" type="text" placeholder="Subject" name="Field3"></p>
             <p><input class="w3-input w3-border" type="text" placeholder="Message" name="Field4"></p>
-            <button type="submit" class="w3-button w3-block w3-black">Send</button>
+            <button type="submit" class="w3-button  w3-pink" id="send-bt">Send</button>
           </form>
         </div>
 
@@ -2383,6 +3411,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
       document.getElementById("myOverlay").style.display = "none";
     }
 
+
+    
     // Greeting
     function enterGreeting() {
       var greet1 = document.getElementById("greeting1");
@@ -2409,6 +3439,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["login"])) {
     }
     function enter() {
       document.getElementById("greeting").style.display="none";
+      document.getElementById("greetingOverlay").style.display="none";  // 新增這行
     }
 
     // Progress bar
@@ -2493,46 +3524,39 @@ addButtons.forEach(btn => {
 
     // Confirm add item
     confirmAddBtn.addEventListener("click", () => {
-  const note = document.getElementById("noteText").value.trim();
-  let ice = "", sugar = "";
-  if (selectedItem && selectedItem.hasOptions) {
-    const iceInput = noteModal.querySelector('input[name="ice1"]:checked');
-    const sugarInput = noteModal.querySelector('input[name="sugar1"]:checked');
-    if (iceInput) ice = iceInput.value;
-    if (sugarInput) sugar = sugarInput.value;
-  }
+      const note = document.getElementById("noteText").value;
+      let ice = "", sugar = "";
+      if (selectedItem && selectedItem.hasOptions) {
+        const iceInput = noteModal.querySelector('input[name="ice1"]:checked');
+        const sugarInput = noteModal.querySelector('input[name="sugar1"]:checked');
+        if (iceInput) ice = iceInput.value;
+        if (sugarInput) sugar = sugarInput.value;
+      }
 
-  if (selectedItem) {
-    if (editingIndex !== null) {
-      // ✏️ 編輯原本那一筆
-      cart[editingIndex] = {
-        ...selectedItem,
-        note,
-        ice,
-        sugar,
-        quantity: cart[editingIndex].quantity
-      };
-      editingIndex = null;
-    } else {
-      // ➕ 新增一筆
-      cart.push({ ...selectedItem, note, ice, sugar, quantity: 1 });
-    }
-
-    // 更新小紅點
-    cartCountBadge.textContent =
-      cart.reduce((sum, item) => sum + item.quantity, 0);
-
-    // ⭐⭐ 重點：如果此時購物車是打開的，就立刻重畫畫面
-    if (cartModal.style.display === "block") {
-      renderCart();
-    }
-  }
-
-  document.getElementById("noteText").value = "";
-  noteModal.style.display = "none";
-  updateProgressBar(1);
-});
-
+      if (selectedItem) {
+        if (editingIndex !== null) {
+          cart[editingIndex] = {
+            ...selectedItem,
+            note,
+            ice,
+            sugar,
+            quantity: cart[editingIndex].quantity
+          };
+          editingIndex = null;
+          if (cartModal.style.display === "block") {
+          renderCart();
+        }
+        } else {
+          cart.push({ ...selectedItem, note, ice, sugar, quantity: 1 });
+        }
+        cartCountBadge.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      }
+      document.getElementById("noteText").value = "";
+      noteModal.style.display = "none";
+      if (editingIndex === null) {
+        updateProgressBar(1);
+      }
+    });
 
     // Cancel add
     cancelAddBtn.addEventListener("click", () => {
@@ -2715,22 +3739,97 @@ addButtons.forEach(btn => {
       updateProgressBar(2);
     });
 
-    // Checkout Pay
-    payBtn.addEventListener("click", () => {
-      const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-      const methodText = paymentMethod === 'credit' ? 'Credit Card' : 'Cash';
-      const total = document.getElementById("totalAmount").textContent;
+    // 在 test.php 中找到 payBtn.addEventListener 這段程式碼
+// 替換成以下內容：
 
+// Checkout Pay - 提交訂單到資料庫
+payBtn.addEventListener("click", async () => {
+  const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+  const methodText = paymentMethod === 'credit' ? 'Credit Card' : 'Cash';
+  const total = document.getElementById("totalAmount").textContent;
+
+  // 檢查購物車是否為空
+  if (cart.length === 0) {
+    alert("Your cart is empty！");
+    return;
+  }
+
+  // 詢問客戶姓名
+  const customerName = prompt("Please enter your full name：");
+  
+  if (!customerName || customerName.trim() === "") {
+    alert("Please enter a valid full name！");
+    return;
+  }
+
+  // 準備訂單資料
+  const orderData = {
+    name: customerName.trim(),
+    items: cart.map(item => ({
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      ice: item.ice || '',
+      sugar: item.sugar || '',
+      note: item.note || ''
+    })),
+    payment_method: methodText
+  };
+
+  // 顯示載入中
+  payBtn.disabled = true;
+  payBtn.textContent = "Processing...";
+
+  try {
+    // 發送 AJAX 請求到後端
+    const response = await fetch('submit_order.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
       updateProgressBar(4);
+      
       setTimeout(() => {
-        alert(`Payment successful!\nMethod: ${methodText}\nTotal: ${total}\n\nThank you for dining with us! 🎉`);
+        alert(
+          `Payment Successful! 🎉\n\n` +
+          `Order ID：${result.order_id}\n` +
+          `Customer：${customerName}\n` +
+          `Payment Method：${methodText}\n` +
+          `Total：${total}\n\n` +
+          `Thank you for visiting!！`
+        );
+        
+        // 清空購物車
         cart = [];
         renderCart();
         cartCountBadge.textContent = 0;
         checkoutModal.style.display = "none";
         updateProgressBar(1);
+        
+        // 恢復按鈕狀態
+        payBtn.disabled = false;
+        payBtn.textContent = "Confirm Payment";
       }, 300);
-    });
+      
+    } else {
+      alert(`Order submission failed:${result.message}`);
+      payBtn.disabled = false;
+      payBtn.textContent = "Confirm Payment";
+    }
+    
+  } catch (error) {
+    console.error('錯誤：', error);
+    alert(`An error occurred：${error.message}\nPlease check your connection or contact support.`);
+    payBtn.disabled = false;
+    payBtn.textContent = "Confirm Payment";
+  }
+});
 
     // Flip cards：用按鈕控制翻面，點背面翻回來
     const menuCards = document.querySelectorAll('.menu-card');
@@ -3099,27 +4198,26 @@ addButtons.forEach(btn => {
 
     // Login Box (JS)
     function initLoginBox() {
-      const loginForm = document.getElementById("loginForm");
-      const accInput = document.getElementById("accInput");
-      const pwdInput = document.getElementById("pwdInput");
-      const msg = document.getElementById("loginMsg");
+  const loginForm = document.getElementById("loginForm");
+  const accInput = document.getElementById("accInput");
+  const pwdInput = document.getElementById("pwdInput");
+  const msg = document.getElementById("loginMsg");
 
-      if (!loginForm) return;
+  if (!loginForm) return;
 
-      loginForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        const acc = accInput.value.trim();
-        const pwd = pwdInput.value.trim();
+  loginForm.addEventListener("submit", function(e) {
+    const acc = accInput.value.trim();
+    const pwd = pwdInput.value.trim();
 
-        if (acc !== "" && pwd !== "") {
-          msg.style.color = "green";
-          msg.textContent = `Login successful! Welcome, ${acc} 😊`;
-        } else {
-          msg.style.color = "red";
-          msg.textContent = "Please enter both account and password ❌";
-        }
-      });
+    // ❗只有沒填才擋
+    if (acc === "" || pwd === "") {
+      e.preventDefault();
+      msg.style.color = "red";
+      msg.textContent = "Please enter both account and password ❌";
     }
+    // ✅ 有填 → 不擋 → 表單會送到 PHP
+  });
+}
 
     // Lightbox：照片放大邏輯
     function initLightbox() {
