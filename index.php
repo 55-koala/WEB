@@ -136,6 +136,42 @@ if (isset($_POST["login"])) {
       margin-right: 20px;  
     }
 
+
+    /* 平板尺寸：三張卡片一排 */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .w3-main {
+    margin-left: 250px;
+  }
+
+  .w3-row-padding {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: 0 -8px !important;
+  }
+
+  .w3-row-padding > .w3-col {
+    float: none !important;
+    width: 33.333% !important;
+    box-sizing: border-box;
+    padding: 12px 8px !important;
+    max-width: 33.333% !important;
+    display: block !important;
+  }
+
+  .w3-row-padding .w3-container {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  .w3-row-padding .w3-container img {
+    height: 200px;
+  }
+
+  .menu-card,
+  .menu-card-inner {
+    height: 200px;
+  }
+}
 /* 小螢幕：兩張卡片一排 */
 @media (max-width: 600px) {
 
