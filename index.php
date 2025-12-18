@@ -255,6 +255,7 @@ if (isset($_POST["login"])) {
       margin: 8px 0 10px;
       min-height: 3.8em;
     }
+    
 
     /* 讓 Add to Cart 被推到卡片底部 */
     .w3-row-padding .w3-container .add-btn {
@@ -1986,10 +1987,9 @@ if (isset($_POST["login"])) {
     }
     /* 搜尋欄 RWD */
 @media (max-width: 480px) {
-  header .w3-right {
+   header .w3-right {  
     position: relative;
   }
-
   /* 搜尋包裝器 */
   div[style*="position: absolute"][style*="right: 60px"] {
     position: fixed !important;
@@ -4028,61 +4028,55 @@ payBtn.addEventListener("click", async () => {
       }
     });
 
-    document.getElementById("closeSearch").addEventListener("click", () => {
-      searchWrapper.style.display = "none";
-      document.getElementById("keywordInput").value = "";
-      document.getElementById("searchResultMsg").textContent = "";
+// ✅ 正確的做法（只移除 <mark> 標籤，保留其他）
+document.getElementById("closeSearch").addEventListener("click", () => {
+  searchWrapper.style.display = "none";
+  document.getElementById("keywordInput").value = "";
+  document.getElementById("searchResultMsg").textContent = "";
 
-      document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
-        p.innerHTML = p.textContent;
-      });
-    });
+  // 只移除 <mark> 標籤，保留原本的 <br> 和 <b>
+  document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
+    // 用正則表達式移除 <mark> 標籤，但保留內容
+    p.innerHTML = p.innerHTML.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '$1');
+  });
+});
 
-    function searchKeyword() {
-      const keyword = document.getElementById("keywordInput").value.trim();
-      const resultMsg = document.getElementById("searchResultMsg");
-      resultMsg.textContent = "";
+ // 🔍 searchKeyword 函數也需要同步修正
+function searchKeyword() {
+  const keyword = document.getElementById("keywordInput").value.trim();
+  const resultMsg = document.getElementById("searchResultMsg");
+  resultMsg.textContent = "";
 
-      const items = document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type");
-      items.forEach(p => {
-        p.innerHTML = p.textContent;
-      });
+  const items = document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type");
+  
+  // ✅ 先清除之前的高亮（保留原始 HTML 結構）
+  items.forEach(p => {
+    p.innerHTML = p.innerHTML.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '$1');
+  });
 
-      if (!keyword) return;
+  if (!keyword) return;
 
-      const regex = new RegExp(`(${keyword})`, "gi");
-      let matchCount = 0;
-      let firstMatch = null;
+  const regex = new RegExp(`(${keyword})`, "gi");
+  let matchCount = 0;
+  let firstMatch = null;
 
-      items.forEach(p => {
-        const text = p.textContent;
-        if (text.match(regex)) {
-          matchCount++;
-          p.innerHTML = text.replace(regex, `<mark style="background-color:yellow;">$1</mark>`);
-          if (!firstMatch) firstMatch = p;
-        }
-      });
-
-      if (matchCount > 0) {
-        resultMsg.textContent = `Found ${matchCount} result${matchCount > 1 ? 's' : ''}`;
-        firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
-      } else {
-        resultMsg.textContent = "No match found.";
-      }
+  items.forEach(p => {
+    const html = p.innerHTML;
+    // 只在文字內容中搜尋，不破壞 HTML 結構
+    if (html.match(regex)) {
+      matchCount++;
+      p.innerHTML = html.replace(regex, `<mark style="background-color:yellow;">$1</mark>`);
+      if (!firstMatch) firstMatch = p;
     }
+  });
 
-    document.getElementById("searchBtn").addEventListener("click", searchKeyword);
-    document.addEventListener("keydown", e => {
-      if (e.key === "Enter" && searchWrapper.style.display === "flex") {
-        searchKeyword();
-      }
-      if (e.key === "Escape" && searchWrapper.style.display === "flex") {
-        searchWrapper.style.display = "none";
-        document.getElementById("keywordInput").value = "";
-        document.getElementById("searchResultMsg").textContent = "";
-      }
-    });
-
+  if (matchCount > 0) {
+    resultMsg.textContent = `Found ${matchCount} result${matchCount > 1 ? 's' : ''}`;
+    firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    resultMsg.textContent = "No match found.";
+  }
+}
     // 🎮 Game intro logic
     function initGameIntro() {
       const intro = document.getElementById("gameIntro");
