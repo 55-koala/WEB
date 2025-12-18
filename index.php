@@ -3994,6 +3994,7 @@ payBtn.addEventListener("click", async () => {
     // Search Bar
     const header = document.querySelector(".w3-main header");
     const searchIcon = document.getElementById("searchIcon");
+    
 
     const searchWrapper = document.createElement("div");
     searchWrapper.style.position = "absolute";
@@ -4018,6 +4019,16 @@ payBtn.addEventListener("click", async () => {
       <span id="searchResultMsg" style="font-size:14px;color:#FF69B4;margin-left:8px;"></span>
     `;
     header.appendChild(searchWrapper);
+    // 在 window.onload 裡面或是在創建 searchWrapper 之後加入：
+document.getElementById("searchBtn").addEventListener("click", searchKeyword);
+
+// 也可以讓按 Enter 鍵時搜尋
+document.getElementById("keywordInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    searchKeyword();
+  }
+});
+
 
     searchIcon.addEventListener("click", () => {
       if (searchWrapper.style.display === "none") {
@@ -4041,42 +4052,57 @@ document.getElementById("closeSearch").addEventListener("click", () => {
   });
 });
 
- // 🔍 searchKeyword 函數也需要同步修正
+// 搜尋功能
 function searchKeyword() {
   const keyword = document.getElementById("keywordInput").value.trim();
   const resultMsg = document.getElementById("searchResultMsg");
   resultMsg.textContent = "";
-
   const items = document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type");
   
-  // ✅ 先清除之前的高亮（保留原始 HTML 結構）
+  // 先清除之前的高亮（只移除 mark 標籤）
   items.forEach(p => {
     p.innerHTML = p.innerHTML.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '$1');
   });
-
+  
   if (!keyword) return;
-
-  const regex = new RegExp(`(${keyword})`, "gi");
+  
+  // 跳脫特殊字元，避免正則錯誤
+  const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escapedKeyword})`, "gi");
+  
   let matchCount = 0;
   let firstMatch = null;
-
+  
   items.forEach(p => {
     const html = p.innerHTML;
-    // 只在文字內容中搜尋，不破壞 HTML 結構
-    if (html.match(regex)) {
+    if (regex.test(html)) {
       matchCount++;
       p.innerHTML = html.replace(regex, `<mark style="background-color:yellow;">$1</mark>`);
       if (!firstMatch) firstMatch = p;
     }
   });
-
+  
   if (matchCount > 0) {
     resultMsg.textContent = `Found ${matchCount} result${matchCount > 1 ? 's' : ''}`;
-    firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (firstMatch) {
+      firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   } else {
     resultMsg.textContent = "No match found.";
   }
 }
+
+// 關閉搜尋
+document.getElementById("closeSearch").addEventListener("click", () => {
+  searchWrapper.style.display = "none";
+  document.getElementById("keywordInput").value = "";
+  document.getElementById("searchResultMsg").textContent = "";
+  
+  // 只移除 <mark> 標籤，保留其他
+  document.querySelectorAll("section.w3-row-padding .w3-container > p:first-of-type").forEach(p => {
+    p.innerHTML = p.innerHTML.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '$1');
+  });
+});
     // 🎮 Game intro logic
     function initGameIntro() {
       const intro = document.getElementById("gameIntro");
